@@ -1,5 +1,6 @@
 ##
 ##  shtool.pod -- Manual Page for shtool in POD format
+##  Copyright (c) 1999-2002 Ralf S. Engelschall <rse@engelschall.com>
 ##
 ##  This file is part of shtool and free software; you can redistribute
 ##  it and/or modify it under the terms of the GNU General Public
@@ -29,10 +30,10 @@ GNU shtool SHTOOL_VERSION_STR
 
 =head1 SYNOPSIS
 
-B<shtool> 
-[ I<global_options> ] 
-I<command> 
-[ I<command_options> ] 
+B<shtool>
+[ I<global_options> ]
+I<command>
+[ I<command_options> ]
 [ I<command_args> ]
 
 =head1 DESCRIPTION
@@ -66,7 +67,7 @@ and more nasty to always keep them in sync. Especially if some scripts
 were locally adjusted because no centralized maintainance location exists, of
 course. For B<autoconf> no such problem exists, because the resulting
 C<configure> script is generated on-the-fly. The same applies to B<automake>
-and the various C<Makefile.in> files. 
+and the various C<Makefile.in> files.
 
 Only for B<libtool> one always has to grab the latest copy. But because it's
 just two files (C<ltmain.sh> and C<ltconfig>), keeping a source trees in sync
@@ -89,7 +90,7 @@ have aesthetic problems. Because it looks strange to them that 20% of the
 files in the source tree are just auxiliary scripts. Sure, the actual amount
 of script code even B<shtool> cannot reduce, but B<shtool> merges them
 together into a single file and this way they optically totally disappear from
-the source tree. 
+the source tree.
 
 This is a pure aesthetical issue, of course. But keep in mind that hacking is
 a piece of art. And a well layouted source tree is a piece of art for real
@@ -110,7 +111,7 @@ problems of the author.
 =head2 The goals in detail
 
 To better understand the intentions behind B<shtool> and to avoid confusion,
-here are the original goals of the B<shtool> script: 
+here are the original goals of the B<shtool> script:
 
 =over 3
 
@@ -142,7 +143,7 @@ crazyness. Instead it's most of the time mainly for portability reasons.
 =item B<4. It has to be clean and fully documented>
 
 This was achieved by reimplementing too ugly functionality from scratch and
-cleaning up old shell script code plus writing this complete manual page.  
+cleaning up old shell script code plus writing this complete manual page.
 
 =item B<5. It has to stay under a reasonable and common license>
 
@@ -188,9 +189,9 @@ Displays shell trace messages for debugging purposes.
 
 =item B<-r>, B<--recreate>
 
-Recreate the B<shtool> script with its own individual B<shtoolize> call.
+Recreate the B<shtool> script with its own individual shtoolize(1) call.
 
-=back 
+=back
 
 =head1 COMMANDS
 
@@ -214,7 +215,7 @@ Pretty-prints the last modification time of a file or directory.
 
 Pretty-prints a field-sperarated list as a table.
 
-=item B<prop> 
+=item B<prop>
 
 Display a processing indication though a running propeller.
 
@@ -246,9 +247,17 @@ Create a shadow source tree by the help of symbolic links.
 
 Fix file permissions inside a source tree by cleaning up the permission bits.
 
+=item B<rotate>
+
+Rotate a logfile.
+
 =item B<tarball>
 
 Roll standardized distribution tarballs.
+
+=item B<subst>
+
+Apply sed(1) substitution operations.
 
 =item B<guessos>
 
@@ -270,7 +279,7 @@ variables and internal functions.
 
 =item B<version>
 
-Maintain a version information file in either Text, C/C++ or Perl
+Maintain a version information file in either Text, C/C++, Perl or Python.
 format.
 
 =item B<path>
@@ -286,23 +295,25 @@ I<command_options> are described in detail.
 
 =over 4
 
-=item B<echo> [B<-n>] [B<-e>] I<str>
+=item B<echo> [B<-n>|B<--newline>] [B<-e>|B<--expand>] I<str>
 
 This is an echo(1) style print command which provides special expansion
 constructs (terminal bold mode, environment details, date) and newline
 control.  Per default I<string> is written to I<stdout> followed by a newline
 character (``C<\n>''). When option ``B<-n>'' is used this newline character is
-left out. 
+left out.
 
-The I<str> can contain special ``B<%>I<x>'' constructs which which are
-expanded before the output is written if option ``B<-e>'' is used.
-Currently the following constructs are recognized: ``B<%B>'' for switching to
-terminal bold mode, ``B<%b>'' for switching terminal mode back to normal
-display mode, ``B<%u>'' for the current user name, ``B<%U>'' for the current
-user id (numerical), ``B<%h>'' for the current hostname, ``B<%d>'' for the
-current domain name, ``B<%D>'' for the current day of the month, ``B<%M>'' for
-the current month (numerical), ``B<%m>'' for the current month name and
-``B<%Y>'' for the current year.
+The I<str> can contain special ``B<%>I<x>'' constructs which which
+are expanded before the output is written if option ``B<-e>'' is
+used. Currently the following constructs are recognized: ``B<%B>''
+for switching to terminal bold mode, ``B<%b>'' for switching terminal
+mode back to normal display mode, ``B<%u>'' for the current user name,
+``B<%U>'' for the current user id (numerical), ``B<%g>'' for the current
+group name, ``B<%G>'' for the current group id (numerical), ``B<%h>''
+for the current hostname, ``B<%d>'' for the current domain name,
+``B<%D>'' for the current day of the month, ``B<%M>'' for the current
+month (numerical), ``B<%m>'' for the current month name and ``B<%Y>''
+for the current year.
 
 The trick of this command is that it provides a portable ``B<-n>'' option and
 hides the gory details needed to find out the environment details.
@@ -314,7 +325,7 @@ Examples:
  shtool echo -e "Your Email address might be %u@%h%d"
  shtool echo -e "The current date is %D-%m-%Y"
 
-=item B<mdate> [B<-n>] [B<-z>] [B<-s>] [B<-d>] [B<-f> I<str>] [B<-o> I<spec>] I<path>
+=item B<mdate> [B<-n>|B<--newline>] [B<-z>|B<--zero>] [B<-s>|B<--shorten>] [B<-d>|B<--digits>] [B<-f>|B<--field-sep> I<str>] [B<-o>|B<--order> I<spec>] I<path>
 
 This command pretty-prints the last modification time of a file or directory
 I<path>. Option ``B<-n>'' suppresses the output of a trailing newline
@@ -323,7 +334,7 @@ leading zero, option ``B<-s>'' shortens the months name to an abbreviation of
 three characters, option ``B<-d>'' replaces the month name with the
 corresponding digits, option ``B<-f>'' uses I<str> as the field separator
 (default is a single space character) and option ``B<-o>'' specified the order
-in which the fields are printed. 
+in which the fields are printed.
 
 The default for I<spec> is ``C<dmy>'' which means an output of ``<day> <month>
 <year>''.  Any combination of the chars ``C<d>'', ``C<m>'' and ``C<y>'' or
@@ -340,12 +351,12 @@ Examples:
  shtool mdate -f '/' -z -d -o ymd foo.txt
  shtool mdate -f '-' -s foo.txt
 
-=item B<table> [B<-F> I<sep>] [B<-w> I<width>] [B<-c> I<cols>] [B<-s> I<strip>] I<str>B<sep>I<str>...
+=item B<table> [B<-F>|B<--field-sep> I<sep>] [B<-w>|B<--width> I<width>] [B<-c>|B<--columns> I<cols>] [B<-s>|B<--strip> I<strip>] I<str>B<sep>I<str>...
 
 This pretty-prints a I<sep>-sperarated list of I<str>ings as a table.  Per
 default a colon-separated list (I<sep>=":") is pretty printed as a
 three-column (<cols>=3) table no longer than 79 chars (I<strip>=79) is
-generated where each column is 15 characters wide (I<width>=15). 
+generated where each column is 15 characters wide (I<width>=15).
 
 The trick of this command is that it avoids to use the unportable tr(1) and
 fmt(1) commands and instead is based entirely on sh(1), awk(1) and sed(1)
@@ -356,7 +367,7 @@ Example:
  #   shell script
  shtool table -F , -w 5 -c 4 "1,2,3,4,5,6,7,8,9,10,11,12"
 
-=item B<prop> [B<-p> I<str>]
+=item B<prop> [B<-p>|B<--prefix> I<str>]
 
 This command displays a processing indication though a running propeller. The
 option ``B<-p>'' can be used to set a particular prefix I<str> which is
@@ -376,7 +387,7 @@ Example:
      tee logfile |\
      shtool prop -p "Configuring sources"
 
-=item B<move> [-v] [-t] [-e] [-p] I<src-file> I<dst-file>
+=item B<move> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-e>|B<--expand>] [B<-p>|B<--preserve>] I<src-file> I<dst-file>
 
 This is a mv(1) style command, but with two special features: First if
 option ``B<-e>'' (`expand') is used and an asterisk occurs somewhere in I<src>
@@ -396,28 +407,30 @@ preserves the timestamps if the contents isn't changed.
 Examples:
 
  #   shell script
- shtool move -v -e *.txt %1.asc
+ shtool move -v -e '*.txt' %1.asc
 
  #   Makefile
  scanner.c: scanner.l
      lex scanner.l
      shtool move -t -p lex.yy.c scanner.c
 
-=item B<install> [B<-v>] [B<-t>] [B<-c>] [B<-C>] [B<-s>] [B<-m> I<mode>] [B<-o> I<owner>] [B<-g> I<group>] [B<-e> I<ext>] I<file> I<path>
+=item B<install> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-c>|B<--copy>] [B<-C>|B<--compare-copy>] [B<-s>|B<--strip>] [B<-m>|B<--mode> I<mode>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-e>|B<--exec> I<sed-cmd>] I<file> I<path>
 
 This command installs a program, script or datafile (dependent on I<mode>) in
 a portable way while providing all important options of the BSD install(1)
 command. Per default I<file> is moved to the target I<path>, but with option
 ``B<-c>'' I<file> is copied. The target file is created with owner/group set
 to the current active uid/gid, but if this script is called as root (uid 0)
-the options ``B<-o>'' and ``B<-g>'' can be used to override this. 
+the options ``B<-o>'' and ``B<-g>'' can be used to override this.
 
-Additionally program executables is stripped with strip(1) after installation
-if option ``B<-s>'' is used.  Option ``B<-C>'' is like ``B<-c>'', except if
-the destination file already exists and the files are the same, the source is
-just removed.  Option ``B<-e>'' can be used to set an implicit executable
-extension.  Option ``B<-v>'' (verbose) can be used to enable the output of
-extra processing information. Option ``B<-t>'' (trace) can be used to enable
+Additionally program executables is stripped with strip(1) after
+installation if option ``B<-s>'' is used. Option ``B<-C>'' is like
+``B<-c>'', except if the destination file already exists and the files
+are the same, the source is just removed. Option ``B<-e>'' can be used
+one or multiple times to apply one or more sed(1) commands on-the-fly
+to the contents of the input I<file> before the output file is created.
+Option ``B<-v>'' (verbose) can be used to enable the output of extra
+processing information. Option ``B<-t>'' (trace) can be used to enable
 the output of the essential shell commands which are executed.
 
 The trick of this command is that it provides the functionality of BSD
@@ -430,15 +443,17 @@ Example:
       :
      shtool install -c -s -m 4755 foo $(bindir)/
      shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
+     shtool install -c -m 644 -e "s/@p@/$prefix/g" foo.conf $(etcdir)/
 
-=item B<mkdir> [B<-t>] [B<-f>] [B<-p>] [B<-m> I<mode>] I<dir> [I<dir> ...]
+=item B<mkdir> [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-p>|B<--parents>] [B<-m>|B<--mode> I<mode>] I<dir> [I<dir> ...]
 
-This is a mkdir(1) style command providing support for auto-parent-dir
-creation (if option ``B<-p>'' is used), directory permission control (with
-option ``B<-m> I<mode>'' where I<mode> can be in any of the formats specified
-to the chmod(1) command) and smart skipping if I<dir> already exists
-(triggered by the force option ``B<-f>'').  Option ``B<-t>'' (trace) can be
-used to enable the output of the essential shell commands which are executed.
+This is a mkdir(1) style command providing support for automatic parent
+directory creation (if option ``B<-p>'' is used), directory permission
+control (with option ``B<-m> I<mode>'' where I<mode> can be in any of
+the formats specified to the chmod(1) command) and smart skipping if
+I<dir> already exists (triggered by the force option ``B<-f>''). Option
+``B<-t>'' (trace) can be used to enable the output of the essential
+shell commands which are executed.
 
 The trick of this command is that it provides both a portable ``B<-p>''
 functionality and the ability to be smart if the directory already exists
@@ -452,7 +467,7 @@ Example:
      shtool mkdir -f -p -m 755 $(mandir)/man1
       :
 
-=item B<mkln> [B<-t>] [B<-f>] [B<-s>] I<src-path> [I<src-path> ...] I<dst-path>
+=item B<mkln> [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-s>|B<--symbolic>] I<src-path> [I<src-path> ...] I<dst-path>
 
 This is a ln(1) style command which provides automatic calculation and usage
 of relative links if possible, i.e. usually if I<src-path> and I<dst-path>
@@ -472,14 +487,14 @@ Example:
  #   shell script
  shtool mkln -s foo/bar baz/quux
 
-=item B<mkshadow> [B<-v>] [B<-t>] [B<-a>] I<src-dir> I<dst-dir>
+=item B<mkshadow> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-a>|B<--all>] I<src-dir> I<dst-dir>
 
 This command creates a shadow tree of I<src-dir> under I<dst-dir> by
 recreating the directory hierarchy of I<src-dir> under I<dst-dir> and by
 creating the files of I<src-dir> by linking them into the corresponding
 directories under I<dst-dir> via symbolic links. When I<src-dir> can be
 reached via relative paths from I<dst-dir>, relative symbolic links are used,
-too. 
+too.
 
 Option ``B<-v>'' (verbose) can be used to enable some displaying of processing
 information.  Option ``B<-t>'' (trace) can be used to display all commands
@@ -491,12 +506,12 @@ are not shadowed.
 The trick of this is that is provides such a high-level functionality with a
 single command and hides all gory details.
 
-Example: 
+Example:
 
  #   shell script
  shtool mkshadow -v -a . /tmp/shadow
 
-=item B<fixperm> [B<-v>] [B<-t>] I<path> [ I<path> ... ]
+=item B<fixperm> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] I<path> [ I<path> ... ]
 
 This command fixes file permissions inside a source tree under I<path> by
 cleaning up the permission bits. It determines the cleaned up permission from
@@ -510,12 +525,86 @@ manually or with a large file list.
 
 Example:
 
-  #  Makefile.in
+  #   Makefile.in
   dist:
       shtool fixperm -v *
       ...
 
-=item B<tarball> [B<-t>] [B<-v>] [B<-o> I<tarball>] [B<-c> I<prog>] [B<-u> I<user>] [B<-g> I<group>] [B<-e> I<pattern>] I<path> [I<path> ...]
+=item B<rotate> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-n>|B<--num-files> I<count>] [B<-s>|B<--min-size> I<size>] [B<-c>|B<--copy>] [B<-r>|B<--remove>] [B<-a>|B<--archive-dir> I<dir>] [B<-z>|B<--compress> [I<tool>:]I<level>] [B<-b>|B<--background>] [B<-d>|B<--delay>] [B<-p>|B<--pad> I<len>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-m>|B<--mode> I<mode>] [B<-M>|B<--migrate> I<cmd>] [B<-P>|B<--prolog> I<cmd>] [B<-E>|B<--epilog> I<cmd>] I<file> [...]
+
+This command rotates a logfile I<file> by subsequently creating up to
+I<count> (optionally compressed) archive files of it. Archive files are
+named "I<file>.I<number>[I<compress-suffix]>" where I<number> is the
+version number, 0 being the newest and "I<count>-1" the oldest.
+
+A rotation step consists of the following steps: 1. remove archive file
+number I<count>-1; 2. move archive file number I<N>-1 to I<N> for I<N>
+counting from 1 to I<count>-1; 3. move I<file> to archive file number 0;
+4. creating a new and empty instance of I<file>.
+
+Option ``B<-s>'' can be used to only start a rotation step if I<file> is
+at least I<size> bytes long. The argument I<size> can be specified also
+with the trailing units C<K> (kilo), C<M> (mega) or C<G> (giga).
+
+Option ``B<-c>'' changes the approach of moving I<file> to archive file
+number 0: instead of a move followed by the creation of a new I<file>, a
+copy is performed followed by a truncation of I<file>. The difference is
+that in the first case (the default), if an application has I<file>
+still opened, after the rotation step it will have archive file number
+0 opened and usually has to reopen the new I<file>, while in the second
+case the application can keep its open file handles to I<file>. The
+drawback of the second approach is that logfile entries are lost when
+they are written to I<file> between the executation of the copy and the
+subsequent truncation operation.
+
+Option ``B<-r>'' removes I<file> after rotation instead of providing a
+new empty file. Option ``B<-a>'' forces archive files to be created in
+the separate directory I<dir>.
+
+Option ``B<-z>'' enables compression of archive files with compression
+level I<level> (if option ``B<-b>'' is present, compression takes place in
+background). By default, the tools bzip2(1), gzip(1) and compress(1) are
+searched for in C<$PATH> (in this order), but one also can override this
+by prefixing the compression level with one of the three particular tool
+names. Option ``B<-d>'' delays the compression of archive file number 0.
+This is useful if option ``B<-c>'' is not used, because an application
+might still write to archive file 0 (through an open file handle).
+
+Option ``B<-p>'' enables padding with leading zeros in the I<number>
+part of the filename "I<file>.I<number>I<compress-suffix>". The default
+padding I<len> is 1. This is interesting if more than 10 archive files
+are used, because it leads to still sorted directory listings.
+
+Options ``B<-o>'', ``B<-g>'' and ``B<-m>'' can be used to make sure that
+the created files have particular file attributes. The valid arguments
+are the same as for chown(1), chgrp(1) and chmod(1). Be aware that using
+options ``B<-o>'' and ``B<-g>'' require root privileges.
+
+Option ``B<-M>'' allows one to execute a "migration" command just before
+the archive file number I<count>-1 is removed from the filesystem. The
+specified I<cmd> gets the archive filename as an argument appended.
+Options ``B<-P>'' (prolog) and ``B<-E>'' (epilog) can be used to execute
+commands before and after the rotation step. They are interesting in
+conjunction with option ``B<-s>'', because they are not executed at all
+if it is decided that no rotation step is performed.
+
+Option ``B<-f>'' (force) can be used to allow the archive directory
+(option ``B<-a>'') to be silently created if it still does not exist and
+that still not existing intermediate logfiles are silently skipped in
+the rotation step.
+
+Option ``B<-v>'' (verbose) can be used to display the files which are
+rotated. Option ``B<-t>'' (trace) can be used to enable the output of
+the essential shell commands which are executed for the rotation step.
+
+Example:
+
+  #   shell script
+  shtool rotate -n10 -s1M -zbzip2:9 -d -r /var/log/ap.access.log
+  shtool rotate -n5 -s128K -zbzip2:9 -d -r /var/log/ap.error.log
+  apachectl graceful
+
+=item B<tarball> [B<-t>|B<--trace>] [B<-v>|B<--verbose>] [B<-o>|B<--output> I<tarball>] [B<-c>|B<--compress> I<prog>] [B<-u>|B<--user> I<user>] [B<-g>|B<--group> I<group>] [B<-e>|B<--exclude> I<pattern>] I<path> [I<path> ...]
 
 This command is for `rolling' distribution `tarballs', i.e. for the creation
 of distribution files generated by `C<tar>'. The important aspects of
@@ -525,7 +614,7 @@ to the tarball filename (i.e. a tarball `C<foobar-0.8.15.tar>' per convention
 unpacks into a top-level directory `C<foobar-0.8.15/>'); third the files in
 the tarball should be sorted to allow users to use the `C<tar tvf ->' command
 in a reasonable way; fourth the owner and group of the files in the tarball
-for security reasons can be set to arbitrary names. 
+for security reasons can be set to arbitrary names.
 
 The input files are given by the file or directory arguments I<path>.
 Directories are expanded before the comma-separated exclude (option B<-e>)
@@ -539,16 +628,46 @@ the tarball. Option ``B<-t>'' (trace) can be used to enable the output of the
 essential shell commands which are executed.
 
 The trick of this command is that it combines the complex process of rolling a
-good tarball into a I<single> command. 
+good tarball into a I<single> command.
 
 Example:
 
-  #  Makefile.in
+  #   Makefile.in
   dist:
       ...
       V=`shtool version -d short ...'; \
       shtool tarball -o foobar-$$V.tar.gz -c 'gzip -9' \
                      -u bar -g gnu -e 'CVS,\.cvsignore' .
+
+=item B<subst> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-n>|B<--nop>] [B<-s>|B<--stealth>] [B<-i>|B<--interactive>] [B<-b>|B<--backup> I<ext>] [B<-e>|B<--exec> I<cmd>] [B<-f>|B<--file> I<cmd-file>] [I<file>] [I<file> ...]
+
+This command applies one or more sed(1) substitution operations to
+F<stdin> or any number of files. The sed(1) operations are either
+specified on the command line with option ``B<-e>'' or are contained
+in a file I<cmd-file> and are specified with option ``B<-f>''. The
+original untouched I<file> is usually overridden. If option ``B<-b>''
+is given and specifies a file extension, the original file is preserved
+as ``I<file>.I<ext>''. If option ``B<-s>'' (stealth) is specified,
+the timestamp is preserved on I<file>, too. Option ``B<-i>'' enables
+interactive mode where the user has to approve each operation. Option
+``B<-n>'' (no operation) can be used to disable the actual execution of
+the essential shell commands which would be executed. Option ``B<-t>''
+(trace) can be used to enable the output of the essential shell commands
+which are executed. Option ``B<-v>'' (verbose) can be used to display
+the files which are patched.
+
+Example:
+
+  #    interactive shell
+  shtool subst -i -e 's;(c) \([0-9]*\)-2000;(c) \1-2001;' *.[ch]
+
+  #    RPM spec-file
+  %install
+      shtool subst -v -n \
+          -e 's;^\(prefix=\).*;\1 $RPM_BUILD_ROOT%{_prefix};g' \
+          -e 's;^\(sysconfdir=\).*;\1 $RPM_BUILD_ROOT%{_prefix}/etc;g' \
+          `find . -name Makefile -print`
+      make install
 
 =item B<guessos>
 
@@ -562,7 +681,7 @@ C<config.guess>/C<config.sub> scripts, please.
  #   configure.in
  OS=`shtool guessos`
 
-=item B<arx> [B<-t>] [B<-C> I<cmd>] I<op> I<archive> I<file> [I<file> ...]
+=item B<arx> [B<-t>|B<--trace>] [B<-C>|B<--command> I<cmd>] I<op> I<archive> I<file> [I<file> ...]
 
 This is a wrapper around the archive (``C<ar>'') tool. It provides the ability
 to create archives out of existing archives, i.e.  if one of I<file> matches
@@ -589,14 +708,14 @@ Example:
      shtool arx -C $(AR) rc libfoo.a $(OBJS) $(LIBS)
      $(RANLIB) libfoo.a
 
-=item B<slo> [B<-p> I<str>] -- B<-L>I<dir> B<-l>I<lib> [ B<-L>I<dir> B<-l>I<lib> ... ]
+=item B<slo> [B<-p>|B<--prefix> I<str>] -- B<-L>I<dir> B<-l>I<lib> [ B<-L>I<dir> B<-l>I<lib> ... ]
 
 This command separates the linker options ``B<-L>'' and ``B<-l>'' by library
 class. It's argument line can actually be an abitrary command line where those
 options are contained. B<slo> parses these two options only and ignores the
 remaining contents. The result is a trivial shell script on C<stdout> which
 defines six variables containing the ``B<-L>'' and ``B<-l>'' options sorted by
-class: 
+class:
 
 ``C<SLO_DIRS_OBJ>'' and ``C<SLO_LIBS_OBJ>'' contains the ``B<-L>'' and
 ``B<-l>'' options of static libraries,  ``C<SLO_DIRS_PIC>'' and
@@ -621,13 +740,13 @@ Example:
   LINK_DSO="$SLO_DIRS_OBJ $SLO_LIBS_OBJ $SLO_DIRS_PIC $SLO_LIBS_PIC"
     :
 
-=item B<scpp> [B<-v>] [B<-p>] [B<-f>] I<filter>] [B<-o> I<ofile>] [B<-t> I<tfile>] [B<-M> I<mark>] [B<-D> I<dname>] [B<-C> I<cname>] I<file> [I<file> ...]
+=item B<scpp> [B<-v>|B<--verbose>] [B<-p>|B<--preserve>] [B<-f>|B<--filter> I<filter>] [B<-o>|B<--output> I<ofile>] [B<-t>|B<--template> I<tfile>] [B<-M>|B<--mark> I<mark>] [B<-D>|B<--define> I<dname>] [B<-C>|B<--class> I<cname>] I<file> [I<file> ...]
 
 This command is an additional ANSI C source file pre-processor for sharing
 cpp(1) code segments, internal variables and internal functions. The intention
 for this comes from writing libraries in ANSI C. Here a common shared internal
 header file is usually used for sharing information between the library
-source files. 
+source files.
 
 The operation is to parse special constructs in I<file>s, generate a few
 things out of these constructs and insert them at position I<mark> in I<tfile>
@@ -684,14 +803,14 @@ Example:
   #endif
   intern int ours;
   static int myone = 0815;
-  intern int bar(void) 
+  intern int bar(void)
   {
       ours += myone;
   }
 
   /* foo_quux.c */
   #include "foo_p.h"
-  int main(int argc, char *argv[]) 
+  int main(int argc, char *argv[])
   {
       int i;
       ours = OURS_INIT
@@ -702,15 +821,16 @@ Example:
       return 0;
   }
 
-=item B<version> [B<-l> I<lang>] [B<-n> I<name>] [B<-p> I<prefix>] [B<-s> I<version>] [B<-e>] [B<-i> I<knob>] [B<-d> I<type>] I<file>
+=item B<version> [B<-l>|B<--language> I<lang>] [B<-n>|B<--name> I<name>] [B<-p>|B<--prefix> I<prefix>] [B<-s>|B<--set> I<version>] [B<-e>|B<--edit>] [B<-i>|B<--increase> I<knob>] [B<-d>|B<--display> I<type>] I<file>
 
-This command generates and maintains a version information file I<file> for
-program name I<name> in either textual (I<lang>="C<txt>"), ANSI C
-(I<lang>="c") or Perl (I<lang>="perl") language. The version is always
-described with a triple E<lt>I<version>,I<revision>,I<level>E<gt> and is
+This command generates and maintains a version information
+file I<file> for program name I<name> in either textual
+(I<lang>="C<txt>"), ANSI C (I<lang>="c"), Perl (I<lang>="perl") or
+Python (I<lang>="python") language. The version is always described
+with a triple E<lt>I<version>,I<revision>,I<level>E<gt> and is
 represented by a string which always matches the regular expression
-``C<[0-9]+\.[0-9]+[sabp.][0-9]+>''. When the option ``B<-s>'' is given, the
-contents of I<file> is overridden with the specified I<version>.
+``C<[0-9]+\.[0-9]+[sabp.][0-9]+>''. When the option ``B<-s>'' is given,
+the contents of I<file> is overridden with the specified I<version>.
 
 When option ``B<-i>'' is used, the current version in I<file> is updated
 by increasing one element of the version where I<knob> can be one of
@@ -740,13 +860,13 @@ Example:
  V=`shtool version -l c -d long version.c`
  echo "Configuring FooBar, Version $V"
 
-=item B<path> [B<-s>] [B<-r>] [B<-d>] [B<-b>] [B<-m>] [-p I<path>] I<str> [I<str> ...]
+=item B<path> [B<-s>|B<--suppress>] [B<-r>|B<--reverse>] [B<-d>|B<--dirname>] [B<-b>|B<--basename>] [B<-m>|B<--magic>] [B<-p>|B<--path> I<path>] I<str> [I<str> ...]
 
 This command deals with shell C<$PATH> variables. It can find a program
 executable in $PATH or I<path> through one or more filenames (given by one or
 more I<str> arguments). The result is the absolute filesystem path to the
 program displayed on C<stdout> plus an exit code of 0 if it was really
-found.  
+found.
 
 The option ``B<-s>'' can be used to suppress the output which is useful to
 just test whether a program exists with the help of the return code.  The
@@ -772,15 +892,16 @@ sh(1), cp(1), rm(1), mkdir(1), awk(1), sed(1).
 
 =head1 HISTORY
 
-Some scripts contained in B<shtool> were already written in 1994 by I<Ralf
-S. Engelschall> for use inside some private source trees. Then they evolved
-into more elaborated versions over the years and were used in various free
-software projects like ePerl, WML, iSelect, gFONT, etc. They were complemented
-with other scripts from the author which he wrote in March 1998 for the
-``Apache Autoconf-style Interface'' (APACI). In April 1999 the B<shtool>
-package was created out of the accumulated master versions of the scripts and
-in June 1999 it entered the status of an official GNU program and this way
-finally joined the group of B<autoconf>, B<automake> and B<libtool>.
+Some scripts contained in GNU B<shtool> were already written in 1994 by
+I<Ralf S. Engelschall> for use inside some private source trees. Then
+they evolved into more elaborated versions over the years and were used
+in various free software projects like ePerl, WML, iSelect, gFONT, etc.
+They were complemented with other scripts from the author which he wrote
+in March 1998 for the ``Apache Autoconf-style Interface'' (APACI) for
+Apache 1.3. In April 1999 the B<shtool> package was created out of the
+accumulated master versions of the scripts and in June 1999 it entered
+the status of an official GNU program and this way finally joined the
+group of GNU B<autoconf>, GNU B<automake> and GNU B<libtool>.
 
 =head1 AUTHOR
 

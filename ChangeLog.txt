@@ -9,6 +9,38 @@
 
  ChangeLog
 
+ Changes between 1.5.4 and 1.6.0 (14-Jun-2001 to 01-Feb-2002):
+
+   *) Upgraded to GNU Autoconf 2.52 environment.
+      [Ralf S. Engelschall]
+
+   *) Fixed contained RPM specification (shtool.spec)
+      [Ralf S. Engelschall]
+
+   *) Added new command `shtool rotate `[-v|--verbose] [-t|--trace]
+      [-f|--force] [-n|--num-files <count>] [-s|--min-size <size>]
+      [-c|--copy] [-r|--remove] [-a|--archive-dir <dir>] [-z|--compress
+      [<tool>:]<level>] [-b|--background] [-d|--delay] [-p|--pad <len>]
+      [-o|--owner <owner>] [-g|--group <group>] [-m|--mode <mode>]
+      [-M|--migrate <cmd>] [-P|--prolog <cmd>] [-E|--epilog <cmd>]
+      [<file> ...]'. This is a sophisticated command for rotating
+      logfiles of daemons.
+      [Ralf S. Engelschall]
+
+   *) Added GNU long-option support (`--xxxx').
+      [Ralf S. Engelschall]
+
+   *) Cleaned up temporary file handling in `shtool path'.
+      [Ralf S. Engelschall]
+
+   *) Added NEWS file to source tree to comply to GNU standards.
+      [Ralf S. Engelschall]
+
+   *) Add new `shtool subst [-v] [-t] [-n] [-s] [-i] [-b<ext>] 
+      [-e<cmd>] [-f<cmd-file>] [<file>] [...]' command. This
+      is a useful wrapper around sed(1).
+      [Ralf S. Engelschall]
+
  Changes between 1.5.3 and 1.5.4 (19-Apr-2001 to 14-Jun-2001):
 
    *) Removed numerious trailing whitespaces from source files.
