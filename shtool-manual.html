@@ -439,7 +439,7 @@ preserves the timestamps if the contents isn't changed.</P>
      shtool move -t -p lex.yy.c scanner.c</PRE>
 <P></P>
 <DT><P><STRONG><A NAME="item_install_%5B%2Dv%7C%2D%2Dverbose%5D_%5B%2Dt%7C%2D%2"><STRONG>install</STRONG> [<STRONG>-v</STRONG>|<STRONG>--verbose</STRONG>] [<STRONG>-t</STRONG>|<STRONG>--trace</STRONG>] [<STRONG>-c</STRONG>|<STRONG>--copy</STRONG>] [<STRONG>
-<FONT SIZE="-1">-C</FONT></STRONG>|<STRONG>--compare-copy</STRONG>] [<STRONG>-s</STRONG>|<STRONG>--strip</STRONG>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] [<STRONG>-o</STRONG>|<STRONG>--owner</STRONG> <EM>owner</EM>] [<STRONG>-g</STRONG>|<STRONG>--group</STRONG> <EM>group</EM>] [<STRONG>-e</STRONG>|<STRONG>--exec</STRONG> <EM>sed-cmd</EM>] <EM>file</EM> <EM>path</EM></A></STRONG><BR>
+<FONT SIZE="-1">-C</FONT></STRONG>|<STRONG>--compare-copy</STRONG>] [<STRONG>-s</STRONG>|<STRONG>--strip</STRONG>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] [<STRONG>-o</STRONG>|<STRONG>--owner</STRONG> <EM>owner</EM>] [<STRONG>-g</STRONG>|<STRONG>--group</STRONG> <EM>group</EM>] [<STRONG>-e</STRONG>|<STRONG>--exec</STRONG> <EM>sed-cmd</EM>] [<STRONG>-d</STRONG>|<STRONG>--mkdir</STRONG>] <EM>file</EM> <EM>path</EM></A></STRONG><BR>
 <DD>
 This command installs a program, script or datafile (dependent on <EM>mode</EM>) in
 a portable way while providing all important options of the
@@ -460,7 +460,10 @@ processing information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to en
 the output of the essential shell commands which are executed.</P>
 <P>The trick of this command is that it provides the functionality of
 <FONT SIZE="-1">BSD</FONT>
-<A HREF="#item_install"><CODE>install(1)</CODE></A> in a portable emulated way.</P>
+<A HREF="#item_install"><CODE>install(1)</CODE></A> in a portable emulated way. For even more compatibility,
+the
+<FONT SIZE="-1">BSD</FONT> ``<STRONG>shtool</STRONG> <CODE>install -d</CODE>'' usage is internally mapped to the
+``<STRONG>shtool</STRONG> <CODE>mkdir -f -p -m 755</CODE>'' command.</P>
 <P>Example:</P>
 <PRE>
  install:
@@ -469,7 +472,7 @@ the output of the essential shell commands which are executed.</P>
      shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
      shtool install -c -m 644 -e &quot;s/@p@/$prefix/g&quot; foo.conf $(etcdir)/</PRE>
 <P></P>
-<DT><P><STRONG><A NAME="item_mkdir_%5B%2Dt%7C%2D%2Dtrace%5D_%5B%2Df%7C%2D%2Dfor"><STRONG>mkdir</STRONG> [<STRONG>-t</STRONG>|<STRONG>--trace</STRONG>] [<STRONG>-f</STRONG>|<STRONG>--force</STRONG>] [<STRONG>-p</STRONG>|<STRONG>--parents</STRONG>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] <EM>dir</EM> [<EM>dir</EM> ...]</A></STRONG><BR>
+<DT><P><STRONG><A NAME="item_mkdir_%5B%2Dt%7C%2D%2Dtrace%5D_%5B%2Df%7C%2D%2Dfor"><STRONG>mkdir</STRONG> [<STRONG>-t</STRONG>|<STRONG>--trace</STRONG>] [<STRONG>-f</STRONG>|<STRONG>--force</STRONG>] [<STRONG>-p</STRONG>|<STRONG>--parents</STRONG>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] [<STRONG>-o</STRONG>|<STRONG>--owner</STRONG> <EM>owner</EM>] [<STRONG>-g</STRONG>|<STRONG>--group</STRONG> <EM>group</EM>] <EM>dir</EM> [<EM>dir</EM> ...]</A></STRONG><BR>
 <DD>
 This is a <A HREF="#item_mkdir"><CODE>mkdir(1)</CODE></A> style command providing support for automatic parent
 directory creation (if option ``<STRONG>-p</STRONG>'' is used), directory permission
@@ -477,7 +480,10 @@ control (with option ``<STRONG>-m</STRONG> <EM>mode</EM>'' where <EM>mode</EM> c
 the formats specified to the <CODE>chmod(1)</CODE> command) and smart skipping if
 <EM>dir</EM> already exists (triggered by the force option ``<STRONG>-f</STRONG>''). Option
 ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential
-shell commands which are executed.
+shell commands which are executed. The target directory is created with
+owner/group set to the current active uid/gid, but if this script is
+called as root (uid 0) the options ``<STRONG>-o</STRONG>'' and ``<STRONG>-g</STRONG>'' can be used
+to override this.
 <P>The trick of this command is that it provides both a portable ``<STRONG>-p</STRONG>''
 functionality and the ability to be smart if the directory already exists
 which is important for installation procedures.</P>
@@ -797,19 +803,19 @@ input is parsed.</P>
   SRCS=foo_bar.c foo_quux.c
   foo_p.h: foo_p.h.in
        shtool scpp -o foo_p.h -t foo_p.h.in \
-                   -M %%MARK%% -D cpp -C intern $(SRCS)
-
+                   -M %%MARK%% -D cpp -C intern $(SRCS)</PRE>
+<PRE>
   /* foo_p.h.in */
   %%MARK%%
-
+<PRE>
   /* foo_bar.c */
   intern int ours;
   static int myone = 0815;
   intern int bar(void)
   {
       ours += myone;
-  }
-
+  }</PRE>
+<PRE>
   /* foo_quux.c */
   int main(int argc, char *argv[])
   {

@@ -9,6 +9,28 @@
 
  ChangeLog
 
+ Changes between 1.6.1 and 1.6.2 (12-Jul-2002 to 02-Nov-2002):
+
+   *) Map "shtool install -d <dir> [...]" internally to "shtool mkdir
+      -f -p -m 755 <dir> [...]" in order to support the BSD-style
+      "install -d" variant.
+      [Ralf S. Engelschall, Alan Eldridge <alane@geeksrus.net>]
+
+   *) Add -o|--owner and -g|--group options to "shtool mkdir".
+      [Ralf S. Engelschall]
+
+   *) Fixed 'shtool scpp -f ...'. The arguments to option -f 
+      were not evaluated correctly.
+      [Ralf S. Engelschall]
+
+   *) Support bold font on 'cygwin' terminals.
+      [Marcus Boerger <marcus.boerger@t-online.de>]
+
+   *) Try the terminal 'init' sequence before 'reset' for bold mode
+      restoring in order to make sure the terminal is not cleared.
+      Additionally, fallback to a consistent no-bold mode.
+      [Mirko Liss <mirko.liss@web.de>]
+
  Changes between 1.6.0 and 1.6.1 (01-Feb-2002 to 12-Jul-2002):
 
    *) Removed not-existing --min-size option from the usage

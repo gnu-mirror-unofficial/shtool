@@ -414,7 +414,7 @@ Examples:
      lex scanner.l
      shtool move -t -p lex.yy.c scanner.c
 
-=item B<install> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-c>|B<--copy>] [B<-C>|B<--compare-copy>] [B<-s>|B<--strip>] [B<-m>|B<--mode> I<mode>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-e>|B<--exec> I<sed-cmd>] I<file> I<path>
+=item B<install> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-c>|B<--copy>] [B<-C>|B<--compare-copy>] [B<-s>|B<--strip>] [B<-m>|B<--mode> I<mode>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-e>|B<--exec> I<sed-cmd>] [B<-d>|B<--mkdir>] I<file> I<path>
 
 This command installs a program, script or datafile (dependent on I<mode>) in
 a portable way while providing all important options of the BSD install(1)
@@ -434,7 +434,9 @@ processing information. Option ``B<-t>'' (trace) can be used to enable
 the output of the essential shell commands which are executed.
 
 The trick of this command is that it provides the functionality of BSD
-install(1) in a portable emulated way.
+install(1) in a portable emulated way. For even more compatibility,
+the BSD "B<shtool> C<install -d>" usage is internally mapped to the
+"B<shtool> C<mkdir -f -p -m 755>" command.
 
 Example:
 
@@ -445,7 +447,7 @@ Example:
      shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
      shtool install -c -m 644 -e "s/@p@/$prefix/g" foo.conf $(etcdir)/
 
-=item B<mkdir> [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-p>|B<--parents>] [B<-m>|B<--mode> I<mode>] I<dir> [I<dir> ...]
+=item B<mkdir> [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-p>|B<--parents>] [B<-m>|B<--mode> I<mode>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] I<dir> [I<dir> ...]
 
 This is a mkdir(1) style command providing support for automatic parent
 directory creation (if option ``B<-p>'' is used), directory permission
@@ -453,7 +455,10 @@ control (with option ``B<-m> I<mode>'' where I<mode> can be in any of
 the formats specified to the chmod(1) command) and smart skipping if
 I<dir> already exists (triggered by the force option ``B<-f>''). Option
 ``B<-t>'' (trace) can be used to enable the output of the essential
-shell commands which are executed.
+shell commands which are executed. The target directory is created with
+owner/group set to the current active uid/gid, but if this script is
+called as root (uid 0) the options ``B<-o>'' and ``B<-g>'' can be used
+to override this.
 
 The trick of this command is that it provides both a portable ``B<-p>''
 functionality and the ability to be smart if the directory already exists
