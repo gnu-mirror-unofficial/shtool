@@ -8,7 +8,7 @@
 <set-var DATE="01-Feb-2002">
 
 <p>
-<box header="<b id=sf>Current State</b>" bdwidth=1 bdspace=6 bdcolor="#cccccc" bgcolor="#ffffff">
+# <box header="<b id=sf>Current State</b>" bdwidth=1 bdspace=6 bdcolor="#cccccc" bgcolor="#ffffff">
 <table cellspacing=0 cellpadding=0 border=0>
 <tr>
 <td>
@@ -18,7 +18,7 @@ GNU shtool <b><get-var VERS></b></a> &nbsp;&nbsp; (<get-var DATE>)
 <td>&nbsp;&nbsp; <a href="ChangeLog.txt">ChangeLog</a> </td>
 </tr>
 </table>
-</box>
+# </box>
 
 <h2>Abstract</h2>
 
