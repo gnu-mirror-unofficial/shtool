@@ -9,6 +9,14 @@
 
  ChangeLog
 
+ Changes between 2.0.0 and 2.0.1 (02-Jul-2004 to 11-Aug-2004):
+
+   *) Added M4 language output to "shtool version".
+      [James Rowe <Jay@jnrowe.ukfsn.org>]
+
+   *) Fixed AC_PROG_SHTOOL definition in shtool.m4.
+      [James Rowe <Jay@jnrowe.ukfsn.org>]
+
  Changes between 2.0b4 and 2.0.0 (08-May-2004 to 02-Jul-2004):
 
    *) Add -w/--warning option to "shtool subst" command which
