@@ -1,0 +1,529 @@
+      _     _              _ 
+  ___| |__ | |_ ___   ___ | |
+ / __| '_ \| __/ _ \ / _ \| |
+ \__ \ | | | || (_) | (_) | |
+ |___/_| |_|\__\___/ \___/|_|
+                           
+ GNU shtool -- The GNU Portable Shell Tool
+ ____________________________________________________________________
+
+ ChangeLog
+ 
+ Changes between 1.5.0 and 1.5.1 (01-Jul-2000 to 06-Jul-2000):
+
+   *) Fixed hex value generation `shtool version': the `%X' printf
+      format is not understood by all AWK flavors. So use the more
+      portable `%x' instead and pass the result trough a `tr' filter.
+      [Ralf S. Engelschall, Joe Meadows <joe.meadows@boeing.com>,
+       Todd R. Stroup <tstroup@tomahawk.dartas.com>, Keith Minkler 
+       <kminkler@jabber.com>]
+
+   *) Typo in shtool.pod
+      [Ralf S. Engelschall]
+
+   *) Add Python support to `shtool version'.
+      [Benjamin Saller <case@appliedtheory.com>]
+
+ Changes between 1.4.9 and 1.5.0 (16-Apr-2000 to 01-Jul-2000):
+
+   *) Added global -r/--recreate option for generated shtool scripts which can
+      be used to easily upgrade a script (the trick is that -r knows the list
+      of modules which have to specified on the shtoolize command line).
+      [Ralf S. Engelschall]
+
+   *) Completely rewritten `shtool version':
+      - new option -e for editing the new version interactively
+      - unclean -i[sabpP] option variants are now gone
+      - the calculated hex values (-dhex) are now really hex values
+      - better calculated libtool values (-dlibtool)
+      - the C and Perl version files are now using a structure instead
+        of various single variables.
+      - many other minor changes
+      [Ralf S. Engelschall]
+
+   *) Don't print `failed: 0/17' after a successful `make test'
+      because it confused people too often.
+      [Ralf S. Engelschall]
+
+   *) In shtool.m4 check for shtool also in $ac_aux_dir.
+      [Ralf S. Engelschall]
+
+   *) Rewrote the `shtool path -m perl' handling, i.e., the way
+      how to find the most reasonable Perl on a system. It now supports
+      Perl 5.6.0 because we no longer parse `perl -v' output. Instead we
+      base our assumptions on Perl's internal $] variable. Additionally
+      the $PATH position and the executable name is now taken into
+      account, too.
+      [Ralf S. Engelschall]
+
+   *) Fixed shtool.pod: `shtool path -m perl5 perl' is bogus, it has to
+      be just `shtool path -m perl' because the "perl" argument is magic.
+      [Ralf S. Engelschall]
+  
+   *) Fixed `here-document' handling in shtoolize: the whitespaces
+      were incorrectly determined and so newlines were lost.
+      [Ralf S. Engelschall]
+
+   *) Allow `shtool install file [file ...] dir', i.e., multiple
+      source files if target is a directory. This is especially useful
+      for mass-installing files by using shell wildcards for the source.
+      [Ralf S. Engelschall]
+
+   *) Be compatible with SUSv2 and let `shtool mkdir -p' not complain 
+      if directory already exists.
+      [Sascha Schumann <sascha@schumann.cx>]
+
+ Changes between 1.4.8 and 1.4.9 (12-Mar-2000 to 16-Apr-2000):
+   
+   *) Added an `-f <filter>' option to `shtool scpp' which can be used to
+      pre-filter all input files with one or more sed-expressions <filter>.
+      [Ralf S. Engelschall]
+
+   *) Try also `uname -x' in addition to `uname -m' in `shtool guessos'
+      for backward compatibility to SVR4 platforms. Additionally changed
+      the fallback vendor string from `whatever' to `unknown'.
+      [Ralf S. Engelschall]
+
+   *) Added `-p<prefix>' option to `shtool slo' to allow
+      one to change the default variable prefix `SLO_' to <prefix>.
+      [Ralf S. Engelschall]
+
+   *) Speeded up `shtool echo -e "..%B..%b.."' by trying tput and tcout
+      only if terminal is not a vt100, vt200 or an xterm (because for these
+      three we have the escape sequences hard-coded).
+      [Ralf S. Engelschall]
+  
+   *) Fixed various typos in the scripts.
+      [Ralf S. Engelschall]
+
+   *) Replaced old and ugly test for `test -x' in sh.fixperm, sh.path
+      and sh.tarball with a faster, shorter and still sufficient test.
+      [Ralf S. Engelschall]
+
+   *) Added a RPM spec file shtool.spec which allows one to build RPM
+      packages directly from the Shtool distribution tarball through a 
+      simple `rpm -tb shtool-1.X.Y.tar.gz' call.
+      [Daniel Richard G. <straker@MIT.EDU>]
+
+ Changes between 1.4.7 and 1.4.8 (24-Dec-1999 to 12-Mar-2000):
+
+   *) Greatly speeded up option processing by moving option defaults
+      directly into the sh.* scripts and by using a few faster parsing
+      constructs.
+      [Ralf S. Engelschall]
+
+   *) Fixed a syntax error in the option parsing (there was a trailing
+      quote character '"' in an 'eval' command). It fortunately and
+      surprisingly never harmed the operation on any platforms.
+      Additionally we now use sed instead of awk here.
+      [Ralf S. Engelschall]
+
+   *) Made shtool's command line related error messages more 
+      clear by distinguishing between options and commands.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Updated all copyright messages for year 2000.
+      [Ralf S. Engelschall]
+
+ Changes between 1.4.6 and 1.4.7 (05-Sep-1999 to 24-Dec-1999):
+
+   *) Replaced the too generic (and this way slowed down processing)
+      bang `!' mode in option parsing with a per-script local setup.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Fixed mkshadow command: it calculated the reverse path incorrectly
+      if the destination path contained `../' elements.
+      [Ralf S. Engelschall, Gil ?? <pg@sweng.stortek.com>]
+
+   *) Ignore `_.SYMDEF' symbols in arx command.
+      [Ralf S. Engelschall]
+
+   *) Fixed `shtool echo' command for arguments containing whitespaces.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+ Changes between 1.4.5 and 1.4.6 (28-Jul-1999 to 05-Sep-1999):
+
+   *) Fixed manual page sections in Makefile.in.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Accept `tarcust' in addition to `tardy' in sh.tarball.
+      [Ralf S. Engelschall]
+
+   *) Added hint to `shtoolize' to INSTALL document.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Added support for AmigaOS to sh.guessos
+      [Ralf S. Engelschall]
+
+   *) Replace bars (`|') by slashes (`/') in sh.guessos' fallback
+      result string to avoid problems in GNU libtool.
+      [Kriton Kyrimis <kyrimis@cti.gr>]
+
+ Changes between 1.4.4 and 1.4.5 (17-Jul-1999 to 28-Jul-1999):
+
+   *) Added a shtool.m4 which provides an AC_PROG_SHTOOL macro to GNU
+      Autoconf. This is installed in $datadir/aclocal/ so it can be picked up
+      by Autoconf's aclocal command.
+      [Ralf S. Engelschall]
+
+   *) Added `uninstall' target to Makefile.in
+      [Ralf S. Engelschall]
+
+   *) Source tree adjustments to comply more to the GNU standards: Added
+      AUTHORS file; renamed CHANGES to ChangeLog and CREDITS to THANKS.
+      [Ralf S. Engelschall]
+
+   *) Added `make check' as an alias for `make test'
+      [Ralf S. Engelschall]
+
+ Changes between 1.4.3 and 1.4.4 (11-Jul-1999 to 17-Jul-1999):
+
+   *) Added a new `shtool tarball' command for rolling 
+      nice distribution tarballs.
+      [Ralf S. Engelschall]
+
+   *) Fixed usage message of shtoolize.
+      [Ralf S. Engelschall]
+
+   *) Adjusted IRIX detection in sh.guessos.
+      [Ralf S. Engelschall]
+
+   *) Allow shtool to recognize symlinks to itself with the name of 
+      the shtool command like in `ln -s shtool install'.  
+      This is useful for emulation situations.
+      [Paolo Bonzini <bonzini@gnu.org>, Ralf S. Engelschall]
+
+ Changes between 1.4.2 and 1.4.3 (09-Jul-1999 to 11-Jul-1999):
+
+   *) Fix the `a _directory_ named perl5 exists in $PATH' problem
+      also for `shtool path -m perl'.
+      [Justin Leonard Tripp <justin@ee.byu.edu>]
+
+   *) Mention in the manual page that the order of documentation follows the
+      order of the modules in the generated script and that this order is
+      sorted by _topic_.
+      [Ralf S. Engelschall]
+
+ Changes between 1.4.1 and 1.4.2 (07-Jul-1999 to 09-Jul-1999):
+
+   *) Removed residual shebang lines on sh.* scripts.
+      [Gopal Narayanan <gopal@fcrao1.phast.umass.edu>]
+
+   *) Enhanced sh.guessos for more granular GNU/Linux detection.  This
+      especially fixes problems when using the guessed id with libtool.
+      [Ralf S. Engelschall]
+   
+   *) Enhanced `shtool scpp': The generated function prototypes now
+      no longer contain the argument names to avoid namespace conflicts
+      [Ralf S. Engelschall]
+
+   *) Fixed shtoolize.in: The chown() has to use $opt_o
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+ Changes between 1.4.0 and 1.4.1 (02-Jul-1999 to 07-Jul-1999):
+
+   *) Cleaned up usage messages.
+      [Ralf S. Engelschall, Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Updated and cleaned up shtool.pod
+      [Ralf S. Engelschall]
+
+   *) Added shtool -d for enabling shell trace information.
+      [Ralf S. Engelschall]
+
+   *) Renamed shtool.gen to shtoolize.in and enhanced it to become the new
+      build frontend which now is also installed and can be used by developers
+      to build individual shtool scripts (which contain only a subset of the
+      functionality in case the developer doesn't need all functionality in
+      his source tree).
+      [Denis Barbier <barbier@imacs.polytechnique.fr>, Ralf S. Engelschall]
+
+   *) Made sh.scpp more robust on brain-dead platforms where their `awk' is to
+      weak for the used Awk script.  Instead we now search for gawk, then nawk
+      and finally for awk before using it.
+      [Ralf S. Engelschall, Martin Kraemer <Martin.Kraemer@MchP.Siemens.De>]
+
+   *) Be more friendly to developers and require only Autoconf 2.12
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Fixed typos related to `separate'.
+      [Martin Kraemer <Martin.Kraemer@MchP.Siemens.De>]
+
+ Changes between 1.3.3 and 1.4.0 (01-Jul-1999 to 02-Jul-1999):
+
+   *) Fixed `shtool arx' command: it expected one argument too much,
+      shifted one argument too much and wasn't aware of `arx x lib.a'.
+      [Ralf S. Engelschall]
+
+   *) Fixed `shtool echo -n' variant: Now Awk is only used as a fallback,
+      because it complains about some \xx sequences and there is no $seo for
+      Awk :-( [Ralf S. Engelschall]
+
+   *) Added the first cut for a shtool test suite under `make test'.
+      [Ralf S. Engelschall]
+
+   *) Additionally try `tput sgr0' to reset bold mode in sh.echo
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Fix initializations for `bptype' variable in sh.version
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
+   *) Globally cleaned up -v (verbose), -d (debug) and -t (trace) options:
+      - Added -v (verbose) and -t (trace) options to "shtool move"
+      - Added -v (verbose) and -t (trace) options to "shtool install"
+      - Added -t (trace) option to "shtool mkdir"
+      - Renamed -v option to -t (trace) option for "shtool mkln"
+      - Renamed -d option to -t (trace) option for "shtool mkshadow"
+      - Added -t (trace) option to "shtool fixperm"
+      - Renamed -v option to -t (trace) option for "shtool arx"
+      [Ralf S. Engelschall]
+
+   *) Fixed a path construction bug in "shtool install" and
+      added more error escapes
+      [Ralf S. Engelschall]
+
+   *) Removed remaining trailing whitespaces from scripts
+      [Ralf S. Engelschall]
+
+ Changes between 1.3.2 and 1.3.3 (28-Jun-1999 to 01-Jul-1999):
+
+   *) Cleaned up usage of IFS and removed explicit default IFS
+      [Ralf S. Engelschall]
+
+   *) Removed trailing whitespaces from all scripts
+      [Ralf S. Engelschall, Markus F.X.J. Oberhumer
+      <markus.oberhumer@jk.uni-linz.ac.at>]
+
+   *) Fixed error status handling in sh.move 
+      [Markus F.X.J. Oberhumer <markus.oberhumer@jk.uni-linz.ac.at>]
+
+ Changes between 1.3.1 and 1.3.2 (28-Jun-1999 to 28-Jun-1999):
+
+   *) Fixed a portability problem under SysV shells inside the source tree:
+      the sh.xxxx scripts have to include sh.common via ``. ./sh.common''
+      instead of just ``. sh.common'' in order to find sh.common in the 
+      source tree while bootstrapping. 
+      [Ralf S. Engelschall, Lars Hecking <lhecking@nmrc.ucc.ie>]
+
+ Changes between 1.3.0 and 1.3.1 (25-Jun-1999 to 28-Jun-1999):
+
+   *) Fixed directory checks in mkshadow command [Ralf S. Engelschall, 
+      Evgeny Stambulchik <fnevgeny@plasma-gate.weizmann.ac.il>]
+
+   *) Added -d (debug) and -a (symlink all) options to mkshadow command.
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.9 and 1.3.0 (02-Jun-1999 to 25-Jun-1999):
+
+   *) Fixed handling of 'date +%y' fallback in sh.echo and sh.version
+      [Ralf S. Engelschall]
+
+   *) Enhanced sh.echo's bold terminal sequence determination
+      [Ralf S. Engelschall]
+
+   *) Written a completely new and more sophisticated option parsing code
+      which can be shared by all tools (sh.common).
+      [Ralf S. Engelschall]
+
+   *) Completely overhauled all scripts and this way fixed a few bugs. But
+      especially all scripts now use the new option parsing code.
+      [Ralf S. Engelschall]
+
+   *) Changed distribution license from BSD-style to GPL, but with an
+      important exception which is similar to libtool.  This way all
+      advertisement clauses are gone and shtool is protected better.
+      Nevertheless the resulting shtool script can be used in _ANY_ software
+      package source tree.
+      [Ralf S. Engelschall]
+
+   *) Added a new "shtool mdate" command for finding out and pretty-printing
+      the last modification date of a file or dir.
+      [Ralf S. Engelschall]
+
+   *) Cleaned up usage descriptions
+      [Ralf S. Engelschall]
+
+   *) Moved to the new official state of a GNU program, renamed
+      LICENSE to COPYING, etc.
+      [Ralf S. Engelschall]
+
+   *) Fixed problems with brain-dead Awks in sh.echo
+      [Ralf S. Engelschall]
+
+   *) Fixed problems with sed commands in sh.echo
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.8 and 1.2.9 (28-May-1999 to 02-Jun-1999):
+
+   *) Fixed sh.echo (awk needs EOF on stdin)
+      [Ralf S. Engelschall]
+
+   *) Fixed "tr"-stuff again in sh.version
+      [Ralf S. Engelschall]
+
+   *) Added even more background details to shtool.pod
+      [Ralf S. Engelschall]
+
+   *) Added INSTALL document
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.7 and 1.2.8 (14-May-1999 to 28-May-1999):
+
+   *) Added a nifty sh.scpp for supporting library writing
+      [Ralf S. Engelschall]
+
+   *) Fixed AIX determination in sh.guessos
+      [Ralf S. Engelschall]
+
+   *) Optimized sh.echo's bold stuff
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.6 and 1.2.7 (13-May-1999 to 14-May-1999):
+
+   *) Enhanced sh.guessos: Include release/version information for NetBSD,
+      OSF/1 and IRIX. Additionally extracted the shorter machine id for AIX.
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.5 and 1.2.6 (12-May-1999 to 13-May-1999):
+
+   *) Added leading underscores in AS_HEADER and defines 
+      used in the generated file of sh.version
+      [Ralf S. Engelschall]
+
+   *) Fixed shtool message "Run ... -h"
+      [Ralf S. Engelschall]
+
+   *) Added -s (silent) option to sh.fixperm and
+      made it's test -x portable as in sh.path
+      [Ralf S. Engelschall]
+
+   *) Kicked out Apache-hack for Solaris detection in sh.guessos
+      [Ralf S. Engelschall]
+
+   *) Merge into sh.guessos the BSDI 3.x and MacOS X support from AG
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.4 and 1.2.5 (11-May-1999 to 12-May-1999):
+
+   *) Removed Apache relicts in sh.mkshadow: apaci, etc.
+      [Ralf S. Engelschall]
+
+   *) Cleanups to Makefile.in 
+      [Denis Barbier <barbier@imacs.polytechnique.fr]
+
+   *) Additional initializations for sh.version 
+      [Denis Barbier <barbier@imacs.polytechnique.fr]
+
+   *) Allow env vars $TMPDIR and $TEMPDIR to override /tmp 
+      in sh.version and sh.path.
+      [Denis Barbier <barbier@imacs.polytechnique.fr]
+
+ Changes between 1.2.3 and 1.2.4 (06-May-1999 to 11-May-1999):
+
+   *) Fixed shtool.pod: move -m => move -e
+      [Ralf S. Engelschall]
+
+   *) Replaced \$ (an escaped dollar as text) in sh.version with $/ (an dollar
+      for "ident" and a harmless variable expansion for Perl itself), because
+      RCS' ident dislikes \$. [Denis Barbier <barbier@imacs.polytechnique.fr]
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.2 and 1.2.3 (05-May-1999 to 06-May-1999):
+
+   *) Fixed `tr' portability bug by avoiding character ranges.
+      [Ralf S. Engelschall, Dean Gaudet <dgaudet@arctic.org>]
+
+   *) Make sure `shtool path' doesn't create paths with doubled slashes
+      [Ralf S. Engelschall]
+
+   *) Started a CREDITS file for keeping track of the contributors.
+      [Ralf S. Engelschall]
+
+   *) Added -e (expand) feature to `shtool move' (similar to mmv)
+      [Ralf S. Engelschall]
+
+   *) Require the preserved mode of `shtool move' to have option -p
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.1 and 1.2.2 (29-Apr-1999 to 05-May-1999):
+
+   *) Added "-e <ext>" to sh.install
+      [Ralf S. Engelschall, Yitzchak Scott-Thoennes <sthoenna@efn.org>]
+
+   *) Fixed shtool generation: comments for version output was wrong
+      [Ralf S. Engelschall]
+
+   *) Cleaned up sh.path "-x" test: no need for shebang and absolute /bin/sh
+      [Ralf S. Engelschall]
+
+   *) Finally renamed "shtool version -v" to "shtool version -s" (s = set)
+      [Ralf S. Engelschall]
+
+ Changes between 1.2.0 and 1.2.1 (29-Apr-1999 to 29-Apr-1999):
+
+   *) Extended the shtool.pod manual page to cover additional details
+      [Ralf S. Engelschall]
+
+   *) Cleaned up shtool.gen script
+      [Ralf S. Engelschall]
+
+   *) Updated README and changed official name to "Portable Shell Tool"
+      [Ralf S. Engelschall]
+
+   *) Inserted shtool into a CVS repository
+      [Ralf S. Engelschall]
+
+ Changes between 1.1.0 and 1.2.0 (26-Apr-1999 to 29-Apr-1999):
+
+   *) Added new ``arx'' tool for archiving libs in libs
+      [Ralf S. Engelschall]
+
+   *) Added new ``mkln'' tool for creating relative symlinks
+      [Ralf S. Engelschall]
+
+   *) The script order of the shtool ingredients is now preserved
+      [Ralf S. Engelschall]
+
+   *) Changed "VERSION" to "shtool" in `shtool version' headers
+      [Ralf S. Engelschall]
+
+ Changes between 1.0.0 and 1.1.0 (22-Apr-1999 to 26-Apr-1999):
+
+   *) Cleaned up the usage page of shtool
+      [Ralf S. Engelschall]
+
+   *) Written a complete documentation as a Unix manual page shtool(1)
+      [Ralf S. Engelschall]
+
+   *) Renamed sh.ppl to sh.table and sh.newvers to sh.version
+      [Ralf S. Engelschall]
+
+   *) Created a new sh.move tool
+      [Ralf S. Engelschall]
+
+   *) Merged sh.info into sh.echo
+      [Ralf S. Engelschall]
+
+   *) Merged sh.findprg, sh.findperl, sh.findcpp and sh.fp2rp into a new
+      sh.path tool. Additionally sh.path now contains the functionality of
+      dirname(1) and basename(1).
+      [Ralf S. Engelschall]
+
+   *) Added Makefile.in for building shtool & shtool.1 and installing it
+      [Ralf S. Engelschall]
+
+   *) Renamed *.sh to sh.*
+      [Ralf S. Engelschall]
+
+   *) Added GNU Autoconf environment for perl and pod2man
+      [Ralf S. Engelschall]
+
+ Changes between *GENESIS* and 1.0.0 (22-Apr-1999):
+
+   *) Added Apache's GuessOS as sh.guessos
+      [Ralf S. Engelschall]
+
+   *) Created the first shtool package by collecting all
+      scripts I've written over the last years for various
+      Open Source packages.
+      [Ralf S. Engelschall]

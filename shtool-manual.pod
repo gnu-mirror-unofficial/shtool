@@ -1,0 +1,792 @@
+##
+##  shtool.pod -- Manual Page for shtool in POD format
+##
+##  This file is part of shtool and free software; you can redistribute
+##  it and/or modify it under the terms of the GNU General Public
+##  License as published by the Free Software Foundation; either version
+##  2 of the License, or (at your option) any later version.
+##
+##  This file is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+##  General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with this program; if not, write to the Free Software
+##  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+##  USA, or contact Ralf S. Engelschall <rse@engelschall.com>.
+##
+
+=pod
+
+=head1 NAME
+
+B<GNU shtool> - The GNU Portable Shell Tool
+
+=head1 VERSION
+
+GNU shtool SHTOOL_VERSION_STR
+
+=head1 SYNOPSIS
+
+B<shtool> 
+[ I<global_options> ] 
+I<command> 
+[ I<command_options> ] 
+[ I<command_args> ]
+
+=head1 DESCRIPTION
+
+B<GNU shtool> is a compilation of small but very stable and portable shell
+scripts into a single shell tool. All ingredients were in successful use over
+many years in various free software projects. The compiled B<shtool> script is
+intended to be used inside the source tree of those free software packages.
+There it can take over various (usually non-portable) tasks related to the
+building and installation of such packages.
+
+=head2 Context Background
+
+For the configuration, build and installation environment of modern free
+software packages one nowadays uses GNU B<autoconf> and friends (i.e.
+usually B<autoconf>, B<automake> and B<libtool>). B<Autoconf> covers the
+configuration, B<automake> covers the generation of the build environment and
+B<libtool> covers most of a libraries build process. But at least when it
+comes to the installation step one usually have to use a few auxiliary scripts
+like C<mkdir.sh>, C<install.sh>, etc. These scripts are usually replacements
+for system tools and are required mainly for portability reasons. The result
+is usually an C<etc/> subdirectory in the source tree where over time a
+lot shell scripts accumulate.
+
+=head2 Maintainance Problem
+
+The problem with those C<etc/> shell scripts starts if one has to maintain
+I<lots> of free software packages as it's the case for the author of B<shtool>.
+Then over time all C<etc/> directories diverge and with every day it gets more
+and more nasty to always keep them in sync. Especially if some scripts
+were locally adjusted because no centralized maintainance location exists, of
+course. For B<autoconf> no such problem exists, because the resulting
+C<configure> script is generated on-the-fly. The same applies to B<automake>
+and the various C<Makefile.in> files. 
+
+Only for B<libtool> one always has to grab the latest copy. But because it's
+just two files (C<ltmain.sh> and C<ltconfig>), keeping a source trees in sync
+is not too complicated (especially not if using the handy C<libtoolize>
+program). But the C<etc/> shell script mess is nasty, especially because there
+is no master version on the net. Additionally everytime one starts a new
+project, one has to establish a new source tree. For a GNU hacker it's
+immediately clear that B<autoconf> and friends are part of the game. But which
+C<etc/> shell scripts are needed this time? And from which existing source
+tree to copy them from? Hmmm... the same procedure as last year?!
+
+=head2 The Aesthetic Problem
+
+When a free software package has a large source tree (say, more than 50 files
+and especially with one or more subdirectories) it's usually no problem to
+have an additional C<etc/> subdirectory with some scripts. They then totally
+go down. But for smaller packages, especially those living in a single source
+directory (a degenerated tree), some people (like the author of B<shtool>)
+have aesthetic problems. Because it looks strange to them that 20% of the
+files in the source tree are just auxiliary scripts. Sure, the actual amount
+of script code even B<shtool> cannot reduce, but B<shtool> merges them
+together into a single file and this way they optically totally disappear from
+the source tree. 
+
+This is a pure aesthetical issue, of course. But keep in mind that hacking is
+a piece of art. And a well layouted source tree is a piece of art for real
+hackers, too.  Oh, and for those who really insist on a technical reason: it's
+also easier to upgrade a single file than multiple files ;)
+
+=head2 Filling the gap
+
+So, wouldn't it be nice to have a fourth package (beside B<autoconf>,
+B<automake> and B<libtool>) which fills the gap, i.e. which provides the
+functionality of the old files in C<etc/>, is maintained at a centralized
+location and even consists of just a single (perhaps large) script one can
+threat as a black box the same way one already does this for B<libtool>?  The
+author thought this I<would> be actually very useful and the result is the
+current GNU B<shtool> package which at least successfully solved the above
+problems of the author.
+
+=head2 The goals in detail
+
+To better understand the intentions behind B<shtool> and to avoid confusion,
+here are the original goals of the B<shtool> script: 
+
+=over 3
+
+=item B<1. It has to be self-contained and reside in a single file>
+
+This was achieved by compiling the resulting B<shtool> script out of the
+ingredient source scripts. The advantage is that B<shtool> is still easily
+maintainable, because one can test each script separately. But the final
+functionality then resides in an all-in-one script which can be easily spread
+over multiple source trees.
+
+=item B<2. It has to cover all functionality of the old scripts>
+
+This was achieved by (re)implementing really all functionality which
+experience showed is important in source trees of typical free software
+packages.
+
+=item B<3. It has to be maximum portable over all Unix flavors>
+
+This was achieved by basing the ingredient shell scripts only on well-proven
+code which already survived practice in other projects over more than a few
+months. Especially this means that a lot of complicated emulations are done to
+avoid the use of unportable Unix programs (like C<fmt>, C<tr>, etc) or
+unportable features of well-known Unix programs (like shell functions, special
+C<sed> features, etc. pp).  That's why B<shtool>'s code sometimes looks crazy
+and like overkill to you. Don't think this is because of the authors
+crazyness. Instead it's most of the time mainly for portability reasons.
+
+=item B<4. It has to be clean and fully documented>
+
+This was achieved by reimplementing too ugly functionality from scratch and
+cleaning up old shell script code plus writing this complete manual page.  
+
+=item B<5. It has to stay under a reasonable and common license>
+
+This was achieved by placing the B<shtool> package under the GNU General
+Public License (GPL).  This way the B<shtool> package itself is well protected
+and is guarrantied to be kept free software, but the resulting B<shtool>
+script can be nevertheless I<used> in I<all> types of source trees.  Notice
+here: given that one includes GNU B<shtool> verbatim into an own source tree,
+one is justified in saying that it remains separate from the own package, and
+that this way one is simply just I<using> B<shtool>.  So, in this situation,
+there is no requirement that the package itself is licensed under the GNU
+General Public License in order to take advantage of B<shtool>. Keep this in
+mind ;)
+
+=item B<6. It has to be modularized for flexibility reasons>
+
+This was achieved by using an auxiliary tool shtoolize(1) which can be used to
+build individual C<shtool> scripts out of the ingredient shell scripts. This
+way if one don't need all the available functionality one can assemble
+together an individual C<shtool> script.
+
+=back
+
+=head1 GLOBAL OPTIONS
+
+The following I<global options> are available for B<shtool>. Any I<command>s
+are ignored if one of them is present on the B<shtool> command line.
+
+=over 4
+
+=item B<-h>, B<--help>
+
+Displays a short help page describing the usage of B<shtool> and it's
+ingredient I<command>s in a compact way.
+
+=item B<-v>, B<--version>
+
+Displays the version number of B<shtool>.
+
+=item B<-d>, B<--debug>
+
+Displays shell trace messages for debugging purposes.
+
+=item B<-r>, B<--recreate>
+
+Recreate the B<shtool> script with its own individual B<shtoolize> call.
+
+=back 
+
+=head1 COMMANDS
+
+The following I<command>s are provided by B<shtool>. They are all called via
+``C<shtool> I<command>''. Any trailing I<command_options> are specific to the
+particular I<command>. They are listed (here and also below) sorted by topic,
+i.e. related commands are listed side-by-side.
+
+=over 12
+
+=item B<echo>
+
+echo(1) style print command providing special expansion constructs (terminal
+bold mode, environment details, date) and newline control.
+
+=item B<mdate>
+
+Pretty-prints the last modification time of a file or directory.
+
+=item B<table>
+
+Pretty-prints a field-sperarated list as a table.
+
+=item B<prop> 
+
+Display a processing indication though a running propeller.
+
+=item B<move>
+
+mv(1) style command, but can rename/move multiple files at once and allows
+source files just to be deleted if contents didn't change.
+
+=item B<install>
+
+Install a program, script or datafile in a portable way.
+
+=item B<mkdir>
+
+mkdir(1) style command providing support for auto-parent-dir creation,
+directory permission control and smart skipping if directory already
+exists.
+
+=item B<mkln>
+
+ln(1) style command providing automatic calculation and usage of relative
+links if possible.
+
+=item B<mkshadow>
+
+Create a shadow source tree by the help of symbolic links.
+
+=item B<fixperm>
+
+Fix file permissions inside a source tree by cleaning up the permission bits.
+
+=item B<tarball>
+
+Roll standardized distribution tarballs.
+
+=item B<guessos>
+
+Simple operating system and platform architecture guesser which
+determines a GNU I<platform-triple> style identification string.
+
+=item B<arx>
+
+Extended archive command which can even put existing archives into an archive.
+
+=item B<slo>
+
+Separate linker options by library class.
+
+=item B<scpp>
+
+An additional C source file pre-processor for sharing cpp(1) code, internal
+variables and internal functions.
+
+=item B<version>
+
+Maintain a version information file in either Text, C/C++ or Perl
+format.
+
+=item B<path>
+
+Deal with shell path variables.
+
+=back
+
+=head1 COMMAND DESCRIPTION
+
+In the following the available I<commands> and their corresponding
+I<command_options> are described in detail.
+
+=over 4
+
+=item B<echo> [B<-n>] [B<-e>] I<str>
+
+This is an echo(1) style print command which provides special expansion
+constructs (terminal bold mode, environment details, date) and newline
+control.  Per default I<string> is written to I<stdout> followed by a newline
+character (``C<\n>''). When option ``B<-n>'' is used this newline character is
+left out. 
+
+The I<str> can contain special ``B<%>I<x>'' constructs which which are
+expanded before the output is written if option ``B<-e>'' is used.
+Currently the following constructs are recognized: ``B<%B>'' for switching to
+terminal bold mode, ``B<%b>'' for switching terminal mode back to normal
+display mode, ``B<%u>'' for the current user name, ``B<%U>'' for the current
+user id (numerical), ``B<%h>'' for the current hostname, ``B<%d>'' for the
+current domain name, ``B<%D>'' for the current day of the month, ``B<%M>'' for
+the current month (numerical), ``B<%m>'' for the current month name and
+``B<%Y>'' for the current year.
+
+The trick of this command is that it provides a portable ``B<-n>'' option and
+hides the gory details needed to find out the environment details.
+
+Examples:
+
+ #   shell script
+ shtool echo -n -e "Enter your name [%B%u%b]: "; read name
+ shtool echo -e "Your Email address might be %u@%h%d"
+ shtool echo -e "The current date is %D-%m-%Y"
+
+=item B<mdate> [B<-n>] [B<-z>] [B<-s>] [B<-d>] [B<-f> I<str>] [B<-o> I<spec>] I<path>
+
+This command pretty-prints the last modification time of a file or directory
+I<path>. Option ``B<-n>'' suppresses the output of a trailing newline
+character, option ``B<-z>'' pads numeric day (and optionally month) with a
+leading zero, option ``B<-s>'' shortens the months name to an abbreviation of
+three characters, option ``B<-d>'' replaces the month name with the
+corresponding digits, option ``B<-f>'' uses I<str> as the field separator
+(default is a single space character) and option ``B<-o>'' specified the order
+in which the fields are printed. 
+
+The default for I<spec> is ``C<dmy>'' which means an output of ``<day> <month>
+<year>''.  Any combination of the chars ``C<d>'', ``C<m>'' and ``C<y>'' or
+allowed for I<spec>.
+
+The trick of this command is that it provides a portable way to find out the
+date of a file or directory while still allowing one to specify the format of
+the date display.
+
+Examples:
+
+ #   shell script
+ shtool mdate -n /
+ shtool mdate -f '/' -z -d -o ymd foo.txt
+ shtool mdate -f '-' -s foo.txt
+
+=item B<table> [B<-F> I<sep>] [B<-w> I<width>] [B<-c> I<cols>] [B<-s> I<strip>] I<str>B<sep>I<str>...
+
+This pretty-prints a I<sep>-sperarated list of I<str>ings as a table.  Per
+default a colon-separated list (I<sep>=":") is pretty printed as a
+three-column (<cols>=3) table no longer than 79 chars (I<strip>=79) is
+generated where each column is 15 characters wide (I<width>=15). 
+
+The trick of this command is that it avoids to use the unportable tr(1) and
+fmt(1) commands and instead is based entirely on sh(1), awk(1) and sed(1)
+functionality.
+
+Example:
+
+ #   shell script
+ shtool table -F , -w 5 -c 4 "1,2,3,4,5,6,7,8,9,10,11,12"
+
+=item B<prop> [B<-p> I<str>]
+
+This command displays a processing indication though a running propeller. The
+option ``B<-p>'' can be used to set a particular prefix I<str> which is
+displayed in front of the propeller. The default is no prefix string, i.e. the
+propeller is at the left border of the terminal.  This command is intended to
+be run at the end of a pipe (``C<|>'') sequence where on C<stdin>
+logging/processing informations found.  For every line on C<stdin> the
+propeller cycles one step clock-wise.
+
+The trick of this command is that it provides a portable and easy to use way
+to display such nice and psychologically important process indicators.
+
+Example:
+
+ #   shell script
+ configure 2>&1 |\
+     tee logfile |\
+     shtool prop -p "Configuring sources"
+
+=item B<move> [-v] [-t] [-e] [-p] I<src-file> I<dst-file>
+
+This is a mv(1) style command, but with two special features: First if
+option ``B<-e>'' (`expand') is used and an asterisk occurs somewhere in I<src>
+one can use ``C<%>I<n>'' (where I<n> is C<1>,C<2>,...) in I<dst-file>. This is
+useful for renaming multiple files at once.  Second, if option ``B<-p>''
+(for `preserve') is used and I<src-file> and I<dst-file> are byte-wise the
+same it just deletes I<src-file>. The intention is that the permissions and
+time stamps on I<dst> are't changed which is important if I<dst-file> is
+used in conjunction with Makefiles.  Option ``B<-v>'' (verbose) can be used to
+enable the output of extra processing information. Option ``B<-t>'' (trace)
+can be used to enable the output of the essential shell commands which are
+executed.
+
+The trick of this command is that it can rename multiple files at once and
+preserves the timestamps if the contents isn't changed.
+
+Examples:
+
+ #   shell script
+ shtool move -v -e *.txt %1.asc
+
+ #   Makefile
+ scanner.c: scanner.l
+     lex scanner.l
+     shtool move -t -p lex.yy.c scanner.c
+
+=item B<install> [B<-v>] [B<-t>] [B<-c>] [B<-C>] [B<-s>] [B<-m> I<mode>] [B<-o> I<owner>] [B<-g> I<group>] [B<-e> I<ext>] I<file> I<path>
+
+This command installs a program, script or datafile (dependent on I<mode>) in
+a portable way while providing all important options of the BSD install(1)
+command. Per default I<file> is moved to the target I<path>, but with option
+``B<-c>'' I<file> is copied. The target file is created with owner/group set
+to the current active uid/gid, but if this script is called as root (uid 0)
+the options ``B<-o>'' and ``B<-g>'' can be used to override this. 
+
+Additionally program executables is stripped with strip(1) after installation
+if option ``B<-s>'' is used.  Option ``B<-C>'' is like ``B<-c>'', except if
+the destination file already exists and the files are the same, the source is
+just removed.  Option ``B<-e>'' can be used to set an implicit executable
+extension.  Option ``B<-v>'' (verbose) can be used to enable the output of
+extra processing information. Option ``B<-t>'' (trace) can be used to enable
+the output of the essential shell commands which are executed.
+
+The trick of this command is that it provides the functionality of BSD
+install(1) in a portable emulated way.
+
+Example:
+
+ #   Makefile
+ install:
+      :
+     shtool install -c -s -m 4755 foo $(bindir)/
+     shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
+
+=item B<mkdir> [B<-t>] [B<-f>] [B<-p>] [B<-m> I<mode>] I<dir> [I<dir> ...]
+
+This is a mkdir(1) style command providing support for auto-parent-dir
+creation (if option ``B<-p>'' is used), directory permission control (with
+option ``B<-m> I<mode>'' where I<mode> can be in any of the formats specified
+to the chmod(1) command) and smart skipping if I<dir> already exists
+(triggered by the force option ``B<-f>'').  Option ``B<-t>'' (trace) can be
+used to enable the output of the essential shell commands which are executed.
+
+The trick of this command is that it provides both a portable ``B<-p>''
+functionality and the ability to be smart if the directory already exists
+which is important for installation procedures.
+
+Example:
+
+ #   Makefile
+ install:
+     shtool mkdir -f -p -m 755 $(bindir)
+     shtool mkdir -f -p -m 755 $(mandir)/man1
+      :
+
+=item B<mkln> [B<-t>] [B<-f>] [B<-s>] I<src-path> [I<src-path> ...] I<dst-path>
+
+This is a ln(1) style command which provides automatic calculation and usage
+of relative links if possible, i.e. usually if I<src-path> and I<dst-path>
+are not absolute paths or at least they share a common prefix except the root
+directory (``C</>''). When more than one I<src-path> is specified, all of them
+are linked into I<dst-path>. Options ``B<-f>'' and ``B<-s>'' are similar to
+ln(1), i.e.  they force the creation of the link (even if it exists) and
+create a symbolic link instead of a hard-link.  Option ``B<-t>'' (trace) can
+be used to enable the output of the essential ``C<ln>'' command which is
+executed.
+
+The trick of this command is that it tried hard to calculate the paths to get
+the maximum possible relative paths.
+
+Example:
+
+ #   shell script
+ shtool mkln -s foo/bar baz/quux
+
+=item B<mkshadow> [B<-v>] [B<-t>] [B<-a>] I<src-dir> I<dst-dir>
+
+This command creates a shadow tree of I<src-dir> under I<dst-dir> by
+recreating the directory hierarchy of I<src-dir> under I<dst-dir> and by
+creating the files of I<src-dir> by linking them into the corresponding
+directories under I<dst-dir> via symbolic links. When I<src-dir> can be
+reached via relative paths from I<dst-dir>, relative symbolic links are used,
+too. 
+
+Option ``B<-v>'' (verbose) can be used to enable some displaying of processing
+information.  Option ``B<-t>'' (trace) can be used to display all commands
+which are executed in order to construct I<dst-dir>.  Option ``B<-a>'' (all)
+can be used to really shadow all files and directories in I<src-dir>. Per
+default CVS related files and directories, backup files, object files, etc.
+are not shadowed.
+
+The trick of this is that is provides such a high-level functionality with a
+single command and hides all gory details.
+
+Example: 
+
+ #   shell script
+ shtool mkshadow -v -a . /tmp/shadow
+
+=item B<fixperm> [B<-v>] [B<-t>] I<path> [ I<path> ... ]
+
+This command fixes file permissions inside a source tree under I<path> by
+cleaning up the permission bits. It determines the cleaned up permission from
+the already set bits. It's intended to be run before a tarball is rolled out
+of the source tree. Option ``B<-v>'' can be used to display some processing
+information.  Option ``B<-t>'' (trace) can be used to enable the output of the
+essential shell commands which are executed.
+
+The trick is that this is more convinient that having to set the permissions
+manually or with a large file list.
+
+Example:
+
+  #  Makefile.in
+  dist:
+      shtool fixperm -v *
+      ...
+
+=item B<tarball> [B<-t>] [B<-v>] [B<-o> I<tarball>] [B<-c> I<prog>] [B<-u> I<user>] [B<-g> I<group>] [B<-e> I<pattern>] I<path> [I<path> ...]
+
+This command is for `rolling' distribution `tarballs', i.e. for the creation
+of distribution files generated by `C<tar>'. The important aspects of
+standardized free software tarballs are: first they have to unpack into a
+single top-level directory; second this top-level directory should correspond
+to the tarball filename (i.e. a tarball `C<foobar-0.8.15.tar>' per convention
+unpacks into a top-level directory `C<foobar-0.8.15/>'); third the files in
+the tarball should be sorted to allow users to use the `C<tar tvf ->' command
+in a reasonable way; fourth the owner and group of the files in the tarball
+for security reasons can be set to arbitrary names. 
+
+The input files are given by the file or directory arguments I<path>.
+Directories are expanded before the comma-separated exclude (option B<-e>)
+I<pattern>s (B<grep> regular expressions) are used to filter the list.  The
+default filter is ``C<CVS,\\.cvsignore,\\.[oa]\$>''. Then the tarball is
+created with its files owned by I<user> (option B<-u>) and I<group> (option
+B<-g>). Finally the resulting tarball is piped through an optional compression
+(option B<-c>) program and written to the output file I<tarball> (option
+B<-o>).  Option ``B<-v>'' can be used to display the files which are stored in
+the tarball. Option ``B<-t>'' (trace) can be used to enable the output of the
+essential shell commands which are executed.
+
+The trick of this command is that it combines the complex process of rolling a
+good tarball into a I<single> command. 
+
+Example:
+
+  #  Makefile.in
+  dist:
+      ...
+      V=`shtool version -d short ...'; \
+      shtool tarball -o foobar-$$V.tar.gz -c 'gzip -9' \
+                     -u bar -g gnu -e 'CVS,\.cvsignore' .
+
+=item B<guessos>
+
+This command is a simple operating system and platform architecture guesser
+which determines a so-called ``GNU I<platform-triple>'' style identification
+string ``I<arch>-I<hardware>-I<os>I<osversion>''. For instance a FreeBSD 3.1
+running on a Pentium II is identified as ``C<i686-pc-freebsd3.1>''.  When you
+need a more sophisticated platform guesser, use the GNU
+C<config.guess>/C<config.sub> scripts, please.
+
+ #   configure.in
+ OS=`shtool guessos`
+
+=item B<arx> [B<-t>] [B<-C> I<cmd>] I<op> I<archive> I<file> [I<file> ...]
+
+This is a wrapper around the archive (``C<ar>'') tool. It provides the ability
+to create archives out of existing archives, i.e.  if one of I<file> matches
+``C<*.a>'' the archive member files of I<file> are used instead of I<file>
+itself. When option ``B<-t>'' (trace) is given B<arx> shows the actually
+involved shell commands. Option ``B<-C>'' can be used to set the ``ar''
+command to I<cmd>.
+
+The trick of this command is the automatic handling of archive members which
+is especially interesting if one wants to construct a (usually top-level)
+library archive out of pre-build sub-library archives (usually staying inside
+subdirs) in a large source tree.
+
+Example:
+
+ #   Makefile
+ AR=ar
+ RANLIB=ranlib
+   :
+ OBJS=foo.o bar.o
+ LIBS=baz/libbaz.a quux/libquux.a
+   :
+ libfoo.a: $(OBJS) $(LIBS)
+     shtool arx -C $(AR) rc libfoo.a $(OBJS) $(LIBS)
+     $(RANLIB) libfoo.a
+
+=item B<slo> [B<-p> I<str>] -- B<-L>I<dir> B<-l>I<lib> [ B<-L>I<dir> B<-l>I<lib> ... ]
+
+This command separates the linker options ``B<-L>'' and ``B<-l>'' by library
+class. It's argument line can actually be an abitrary command line where those
+options are contained. B<slo> parses these two options only and ignores the
+remaining contents. The result is a trivial shell script on C<stdout> which
+defines six variables containing the ``B<-L>'' and ``B<-l>'' options sorted by
+class: 
+
+``C<SLO_DIRS_OBJ>'' and ``C<SLO_LIBS_OBJ>'' contains the ``B<-L>'' and
+``B<-l>'' options of static libraries,  ``C<SLO_DIRS_PIC>'' and
+``C<SLO_LIBS_PIC>'' contains the ``B<-L>'' and ``B<-l>'' options of static
+libraries containing PIC ("Position Independent Code") and
+``C<SLO_DIRS_DSO>'' and ``C<SLO_LIBS_DSO>'' contains the ``B<-L>'' and
+``B<-l>'' options of shared libraries. The B<-p> option can be used to
+change the default variable prefix from "C<SLO_>" to I<str>.
+
+The intent of this separation is to provide a way between static and shared
+libraries which is important if one wants to link custom DSOs against
+libraries, because not all platforms all one to link these DSOs against shared
+libraries. So one first has to separate out the shared libraries and link the
+DSO only against the static libraries.  One can use this command also to just
+sort the options.
+
+Example:
+
+  #   configure.in
+  LINK_STD="$LDFLAGS $LIBS"
+  eval `shtool slo $LINK_STD`
+  LINK_DSO="$SLO_DIRS_OBJ $SLO_LIBS_OBJ $SLO_DIRS_PIC $SLO_LIBS_PIC"
+    :
+
+=item B<scpp> [B<-v>] [B<-p>] [B<-f>] I<filter>] [B<-o> I<ofile>] [B<-t> I<tfile>] [B<-M> I<mark>] [B<-D> I<dname>] [B<-C> I<cname>] I<file> [I<file> ...]
+
+This command is an additional ANSI C source file pre-processor for sharing
+cpp(1) code segments, internal variables and internal functions. The intention
+for this comes from writing libraries in ANSI C. Here a common shared internal
+header file is usually used for sharing information between the library
+source files. 
+
+The operation is to parse special constructs in I<file>s, generate a few
+things out of these constructs and insert them at position I<mark> in I<tfile>
+by writing the output to I<ofile>. Additionally the I<file>s are never touched
+or modified. Instead the constructs are removed later by the cpp(1) phase of
+the build process. The only prerequisite is that every I<file> has a
+``C<#include ">I<ofile>C<">'' at the top.
+
+This command provides the following features: First it avoids namespace
+pollution and reduces prototyping efforts for internal symbols by recognizing
+functions and variables which are defined with the storage class identifier
+``I<cname>''.  For instance if I<cname> is ``intern'', a function ``C<intern
+void *foobar(int quux)>'' in one of the I<file>s is translated into both a
+``C<#define foobar __foobar>'' and a ``C<extern void *foobar(int quux);>'' in
+I<ofile>. Additionally a global ``C<#define> I<cname> C</**/>'' is also
+created in I<ofile> to let the compiler silently ignore this additional
+storage class identifier.
+
+Second, the library source files usually want to share C<typedef>s,
+C<#define>s, etc.  over the source file boundaries. To achieve this one can
+either place this stuff manually into I<tfile> or use the second feature of
+B<scpp>: All code in I<file>s encapsulated with ``C<#if >I<dname> ...
+C<#endif>'' is automatically copied to I<ofile>. Additionally a global
+``C<#define> I<dname> C<0>'' is also created in I<ofile> to let the compiler
+silently skip this parts (because it was already found in the header).
+
+Option ``B<-v>'' can be used to enable some processing output. Option
+``B<-p>'' can be used to make the decision whether to overwrite I<ofile>
+independent of the generated ``#line'' lines. This is useful for
+Makefiles if the real contents of I<ofile> will not change, just
+line numbers. Option ``B<-f>'' (which can occur multiple times) can
+be used to apply one or more pre-processing sed(1) I<filter> commands
+(usually of type ``C<s/.../.../>'') to each input file before their
+input is parsed.
+
+Example:
+
+  #   Makefile
+  SRCS=foo_bar.c foo_quux.c
+  foo_p.h: foo_p.h.in
+       shtool scpp -o foo_p.h -t foo_p.h.in \
+                   -M %%MARK%% -D cpp -C intern $(SRCS)
+
+  /* foo_p.h.in */
+  #ifndef FOO_P_H
+  #define FOO_P_H
+  %%MARK%%
+  #endif /* FOO_P_H */
+
+  /* foo_bar.c */
+  #include "foo_p.h"
+  #if cpp
+  #define OURS_INIT 4711
+  #endif
+  intern int ours;
+  static int myone = 0815;
+  intern int bar(void) 
+  {
+      ours += myone;
+  }
+
+  /* foo_quux.c */
+  #include "foo_p.h"
+  int main(int argc, char *argv[]) 
+  {
+      int i;
+      ours = OURS_INIT
+      for (i = 0; i < 10; i++) {
+          bar();
+          printf("ours now %d\n", ours);
+      }
+      return 0;
+  }
+
+=item B<version> [B<-l> I<lang>] [B<-n> I<name>] [B<-p> I<prefix>] [B<-s> I<version>] [B<-e>] [B<-i> I<knob>] [B<-d> I<type>] I<file>
+
+This command generates and maintains a version information file I<file> for
+program name I<name> in either textual (I<lang>="C<txt>"), ANSI C
+(I<lang>="c") or Perl (I<lang>="perl") language. The version is always
+described with a triple E<lt>I<version>,I<revision>,I<level>E<gt> and is
+represented by a string which always matches the regular expression
+``C<[0-9]+\.[0-9]+[sabp.][0-9]+>''. When the option ``B<-s>'' is given, the
+contents of I<file> is overridden with the specified I<version>.
+
+When option ``B<-i>'' is used, the current version in I<file> is updated
+by increasing one element of the version where I<knob> can be one of
+the following: ``C<v>'' for increasing the version by 1 (and resetting
+revision and level to 0), ``C<r>'' for increasing the revision by 1 (and
+resetting level to 0) or ``C<l>'' for increasing the level by 1.  Option
+``B<-e>'' can be used to interactively enter a new version.
+
+Unless option ``B<-e>'', ``B<-i>'' or ``B<-s>'' is specified, the performed
+action is to display the current version.  Option ``B<-d>'' then can be used
+to control the display type: "C<short>" for a short version display, "C<long>"
+for a longer version display, "C<hex>" for a hexadecial display of the version
+and "C<libtool>" for a format suitable for use with GNU libtool.
+
+The hexadecimal format for a version C<v.rtl> is C<VVRRTLL> where C<VV>
+and C<RR> directly correspond to C<v> and C<r>, C<T> encodes the level
+type as C<9>, C<2>, C<1>, C<0> (representing C<s>, C<p>/C<.>, C<b>, C<a>
+in this order) and C<LL> is either directly corresponding to C<l> or set
+to C<99> if level type is C<s>.
+
+Example:
+
+ #   shell script
+ shtool version -l c -n FooBar -p foobar -s 1.2b3 version.c
+
+ #   configure.in
+ V=`shtool version -l c -d long version.c`
+ echo "Configuring FooBar, Version $V"
+
+=item B<path> [B<-s>] [B<-r>] [B<-d>] [B<-b>] [B<-m>] [-p I<path>] I<str> [I<str> ...]
+
+This command deals with shell C<$PATH> variables. It can find a program
+executable in $PATH or I<path> through one or more filenames (given by one or
+more I<str> arguments). The result is the absolute filesystem path to the
+program displayed on C<stdout> plus an exit code of 0 if it was really
+found.  
+
+The option ``B<-s>'' can be used to suppress the output which is useful to
+just test whether a program exists with the help of the return code.  The
+option ``B<-m>'' enables some magic where currently for the programs
+``C<perl>'' and ``C<cpp>'' an advanced magic search is done. The option
+``B<-r>'' can be used to transform a forward path to a subdirectory into a
+reverse path. Option ``B<-d>'' and ``B<-b>'' just output the directory or base
+name of I<str>.
+
+Examples:
+
+ #   shell script
+ awk=`shtool path -p "${PATH}:." gawk nawk awk`
+ perl=`shtool path -m perl`
+ cpp=`shtool path -m cpp`
+ revpath=`shtool path -r path/to/subdir`
+
+=back
+
+=head1 SEE ALSO
+
+sh(1), cp(1), rm(1), mkdir(1), awk(1), sed(1).
+
+=head1 HISTORY
+
+Some scripts contained in B<shtool> were already written in 1994 by I<Ralf
+S. Engelschall> for use inside some private source trees. Then they evolved
+into more elaborated versions over the years and were used in various free
+software projects like ePerl, WML, iSelect, gFONT, etc. They were complemented
+with other scripts from the author which he wrote in March 1998 for the
+``Apache Autoconf-style Interface'' (APACI). In April 1999 the B<shtool>
+package was created out of the accumulated master versions of the scripts and
+in June 1999 it entered the status of an official GNU program and this way
+finally joined the group of B<autoconf>, B<automake> and B<libtool>.
+
+=head1 AUTHOR
+
+ Ralf S. Engelschall
+ rse@engelschall.com
+ www.engelschall.com
+
+=cut
+

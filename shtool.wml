@@ -1,0 +1,59 @@
+
+#include 'template.wml'
+
+#use wml::std::toc style=pre
+#use wml::std::box
+
+<set-var VERS="1.5.1">
+<set-var DATE="29-Jul-2000">
+
+<p>
+<box header="<b id=sf>Current State</b>" bdwidth=1 bdspace=6 bdcolor="#cccccc" bgcolor="#ffffff">
+<table cellspacing=0 cellpadding=0 border=0>
+<tr>
+<td>
+Release Version: &nbsp;&nbsp;
+<a href="ftp://ftp.gnu.org/gnu/shtool/shtool-<get-var VERS>.tar.gz">\
+GNU shtool <b><get-var VERS></b></a> &nbsp;&nbsp; (<get-var DATE>)
+<td>&nbsp;&nbsp; <a href="ChangeLog.txt">ChangeLog</a> </td>
+</tr>
+</table>
+</box>
+
+<h2>Abstract</h2>
+
+<p>
+GNU shtool is a compilation of small but very stable and portable shell
+scripts into a single shell tool. All ingredients were in successful use over
+many years in various free software projects. The compiled shtool program is
+intended to be used inside the source tree of other free software packages.
+There it can overtake various (usually non-portable) tasks related to the
+building and installation of such a package. It especially can replace the old
+<code>mkdir.sh</code>, <code>install.sh</code> and related scripts.
+
+<h2>Documentation, Distribution and Bug Reports</h2>
+
+<p>
+GNU shtool is documented by a <a href="shtool-manual.html">manual</a>
+which describes the functionality of the program in detail. This document is
+available in <a href="shtool-manual.html">HTML</a>, <a
+href="shtool-manual.dvi">DVI</a>, <a href="shtool-manual.ps">Postscript</a>
+and <a href="shtool-manual.pod">POD</a> format.  Additionally the <a
+href="/brave-gnu-world/">Brave GNU World</a> column contains a short
+introduction to GNU shtool in its <a
+href="/brave-gnu-world/issue-7.en.html">Issue No. 7</a>.
+
+<p>
+The latest GNU shtool
+distribution can be found on <A
+HREF="ftp://ftp.gnu.org/gnu/shtool/">ftp://ftp.gnu.org/gnu/shtool/</A> or one
+of <A HREF="/prep/ftp.html">the mirrors</A>. Alpha versions can be found on <A
+HREF="ftp://alpha.gnu.org/gnu/shtool/">ftp://alpha.gnu.org/gnu/shtool/</A>. 
+
+<p>
+If you think you have found a bug in GNU shtool, then you should send a report
+as complete as possible to <A
+HREF="mailto:bug-shtool@gnu.org">&lt;bug-shtool@gnu.org&gt;</A>. And if you
+can, please try to fix the problem and include a patch made with "<CODE>diff
+-u3</CODE>" in your report.
+

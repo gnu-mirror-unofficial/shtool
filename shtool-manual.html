@@ -1,0 +1,665 @@
+<html>
+<head>
+<title>GNU shtool - GNU Project - Free Software Foundation (FSF)</title>
+<links rev="made" href="mailto:rse@gnu.org">
+<style type="text/css"><!--
+A:link { color: #3333FF; }
+A:active { color: #3333FF; }
+A:visited { color: #3333FF; }
+#sf { font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+#sfh { font-weight: bold; font-size: 18pt; line-height: 18pt; font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H1 { font-weight: bold; font-size: 18pt; line-height: 18pt; font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H2 { font-weight: bold; font-size: 14pt; line-height: 14pt; font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H3 { font-weight: bold; font-size: 12pt; line-height: 12pt; font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+--></style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#3333FF" alink="#FF0000" vlink="#3333FF">
+<blockquote>
+<blockquote>
+<img src="shtool.jpg" alt="GNU shtool" width="412" height="200">
+<p>
+<DIV id="sfh">
+  GNU shtool - The GNU Portable Shell Tool
+</div>
+<DIV id="sf">
+  Copyright &copy; 1994-2000
+  <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</a>
+  &lt;<a href="mailto:rse@gnu.org">rse@gnu.org</a>&gt;
+</div>
+<!-- INDEX BEGIN -->
+<UL>
+	<LI><A HREF="#NAME">NAME</A>
+	<LI><A HREF="#VERSION">VERSION</A>
+	<LI><A HREF="#SYNOPSIS">SYNOPSIS</A>
+	<LI><A HREF="#DESCRIPTION">DESCRIPTION</A>
+	<UL>
+		<LI><A HREF="#Context_Background">Context Background</A>
+		<LI><A HREF="#Maintainance_Problem">Maintainance Problem</A>
+		<LI><A HREF="#The_Aesthetic_Problem">The Aesthetic Problem</A>
+		<LI><A HREF="#Filling_the_gap">Filling the gap</A>
+		<LI><A HREF="#The_goals_in_detail">The goals in detail</A>
+	</UL>
+	<LI><A HREF="#GLOBAL_OPTIONS">GLOBAL OPTIONS</A>
+	<LI><A HREF="#COMMANDS">COMMANDS</A>
+	<LI><A HREF="#COMMAND_DESCRIPTION">COMMAND DESCRIPTION</A>
+	<LI><A HREF="#SEE_ALSO">SEE ALSO</A>
+	<LI><A HREF="#HISTORY">HISTORY</A>
+	<LI><A HREF="#AUTHOR">AUTHOR</A>
+</UL>
+<!-- INDEX END -->
+<P>
+<H1><A NAME="NAME"><font face="Arial,Helvetica">NAME</A></H1></font>
+<P>
+<STRONG>GNU shtool</STRONG> - The
+<FONT SIZE="-1">GNU</FONT> Portable Shell Tool
+<P>
+<H1><A NAME="VERSION"><font face="Arial,Helvetica">VERSION</A></H1></font>
+<P>
+<FONT SIZE="-1">GNU</FONT> shtool
+<FONT SIZE="-1">SHTOOL_VERSION_STR</FONT>
+<P>
+<H1><A NAME="SYNOPSIS"><font face="Arial,Helvetica">SYNOPSIS</A></H1></font>
+<P>
+<STRONG>shtool</STRONG>
+[ <EM>global_options</EM> ]
+<EM>command</EM>
+[ <EM>command_options</EM> ] [ <EM>command_args</EM> ]
+<P>
+<H1><A NAME="DESCRIPTION"><font face="Arial,Helvetica">DESCRIPTION</A></H1></font>
+<P>
+<STRONG>GNU shtool</STRONG> is a compilation of small but very stable and portable shell scripts into a
+single shell tool. All ingredients were in successful use over many years
+in various free software projects. The compiled <STRONG>shtool</STRONG> script is intended to be used inside the source tree of those free software
+packages. There it can take over various (usually non-portable) tasks
+related to the building and installation of such packages.
+<P>
+<H2><A NAME="Context_Background"><font face="Arial,Helvetica">Context Background</A></H2></font>
+<P>
+For the configuration, build and installation environment of modern free software packages one nowadays uses
+<FONT SIZE="-1">GNU</FONT>
+ <STRONG>autoconf</STRONG> and friends (i.e. usually <STRONG>autoconf</STRONG>, <STRONG>automake</STRONG> and <STRONG>libtool</STRONG>). <STRONG>Autoconf</STRONG> covers the configuration, <STRONG>automake</STRONG> covers the generation of the build environment and
+<STRONG>libtool</STRONG> covers most of a libraries build process. But at least when it comes to the
+installation step one usually have to use a few auxiliary scripts like <CODE>mkdir.sh</CODE>, <CODE>install.sh</CODE>, etc. These scripts are usually replacements for system tools and are
+required mainly for portability reasons. The result is usually an <CODE>etc/</CODE> subdirectory in the source tree where over time a lot shell scripts
+accumulate.
+<P>
+<H2><A NAME="Maintainance_Problem"><font face="Arial,Helvetica">Maintainance Problem</A></H2></font>
+<P>
+The problem with those <CODE>etc/</CODE> shell scripts starts if one has to maintain
+<EM>lots</EM> of free software packages as it's the case for the author of <STRONG>shtool</STRONG>. Then over time all <CODE>etc/</CODE> directories diverge and with every day it gets more and more nasty to
+always keep them in sync. Especially if some scripts were locally adjusted
+because no centralized maintainance location exists, of course. For <STRONG>autoconf</STRONG> no such problem exists, because the resulting
+<CODE>configure</CODE> script is generated on-the-fly. The same applies to <STRONG>automake</STRONG>
+and the various <CODE>Makefile.in</CODE> files.
+<P>
+Only for <STRONG>libtool</STRONG> one always has to grab the latest copy. But because it's just two files (<CODE>ltmain.sh</CODE> and <CODE>ltconfig</CODE>), keeping a source trees in sync is not too complicated (especially not if
+using the handy <CODE>libtoolize</CODE>
+program). But the <CODE>etc/</CODE> shell script mess is nasty, especially because there is no master version on the net. Additionally everytime one starts a new project, one has to establish a new source tree. For a
+<FONT SIZE="-1">GNU</FONT> hacker it's immediately clear that
+ <STRONG>autoconf</STRONG> and friends are part of the game. But which
+<CODE>etc/</CODE> shell scripts are needed this time? And from which existing source tree to
+copy them from? Hmmm... the same procedure as last year?!
+<P>
+<H2><A NAME="The_Aesthetic_Problem"><font face="Arial,Helvetica">The Aesthetic Problem</A></H2></font>
+<P>
+When a free software package has a large source tree (say, more than 50
+files and especially with one or more subdirectories) it's usually no
+problem to have an additional <CODE>etc/</CODE> subdirectory with some scripts. They then totally go down. But for smaller
+packages, especially those living in a single source directory (a
+degenerated tree), some people (like the author of <STRONG>shtool</STRONG>) have aesthetic problems. Because it looks strange to them that 20% of the
+files in the source tree are just auxiliary scripts. Sure, the actual
+amount of script code even <STRONG>shtool</STRONG> cannot reduce, but <STRONG>shtool</STRONG> merges them together into a single file and this way they optically totally
+disappear from the source tree.
+<P>
+This is a pure aesthetical issue, of course. But keep in mind that hacking
+is a piece of art. And a well layouted source tree is a piece of art for
+real hackers, too. Oh, and for those who really insist on a technical
+reason: it's also easier to upgrade a single file than multiple files ;)
+<P>
+<H2><A NAME="Filling_the_gap"><font face="Arial,Helvetica">Filling the gap</A></H2></font>
+<P>
+So, wouldn't it be nice to have a fourth package (beside <STRONG>autoconf</STRONG>,
+<STRONG>automake</STRONG> and <STRONG>libtool</STRONG>) which fills the gap, i.e. which provides the functionality of the old
+files in <CODE>etc/</CODE>, is maintained at a centralized location and even consists of just a
+single (perhaps large) script one can threat as a black box the same way
+one already does this for <STRONG>libtool</STRONG>? The author thought this <EM>would</EM> be actually very useful and the result is the current
+<FONT SIZE="-1">GNU</FONT> <STRONG>shtool</STRONG> package which at least successfully solved the above problems of the
+author.
+<P>
+<H2><A NAME="The_goals_in_detail"><font face="Arial,Helvetica">The goals in detail</A></H2></font>
+<P>
+To better understand the intentions behind <STRONG>shtool</STRONG> and to avoid confusion, here are the original goals of the <STRONG>shtool</STRONG> script:
+<OL>
+<LI><STRONG><A NAME="item_It_has_to_be_self_contained_and_">It has to be self-contained and reside in a single file</A></STRONG>
+<P>
+This was achieved by compiling the resulting <STRONG>shtool</STRONG> script out of the ingredient source scripts. The advantage is that <STRONG>shtool</STRONG> is still easily maintainable, because one can test each script separately.
+But the final functionality then resides in an all-in-one script which can
+be easily spread over multiple source trees.
+<LI><STRONG><A NAME="item_It_has_to_cover_all_functionalit">It has to cover all functionality of the old scripts</A></STRONG>
+<P>
+This was achieved by (re)implementing really all functionality which
+experience showed is important in source trees of typical free software
+packages.
+<LI><STRONG><A NAME="item_It_has_to_be_maximum_portable_ov">It has to be maximum portable over all Unix flavors</A></STRONG>
+<P>
+This was achieved by basing the ingredient shell scripts only on
+well-proven code which already survived practice in other projects over
+more than a few months. Especially this means that a lot of complicated
+emulations are done to avoid the use of unportable Unix programs (like <CODE>fmt</CODE>, <CODE>tr</CODE>, etc) or unportable features of well-known Unix programs (like shell
+functions, special
+<CODE>sed</CODE> features, etc. pp). That's why <STRONG>shtool</STRONG>'s code sometimes looks crazy and like overkill to you. Don't think this is
+because of the authors crazyness. Instead it's most of the time mainly for
+portability reasons.
+<LI><STRONG><A NAME="item_It_has_to_be_clean_and_fully_doc">It has to be clean and fully documented</A></STRONG>
+<P>
+This was achieved by reimplementing too ugly functionality from scratch and
+cleaning up old shell script code plus writing this complete manual page.
+<LI><STRONG><A NAME="item_It_has_to_stay_under_a_reasonabl">It has to stay under a reasonable and common license</A></STRONG>
+<P>
+This was achieved by placing the <STRONG>shtool</STRONG> package under the
+<FONT SIZE="-1">GNU</FONT> General Public License
+<FONT SIZE="-1">(GPL).</FONT> This way the
+ <STRONG>shtool</STRONG> package itself is well protected and is guarrantied to be kept free
+software, but the resulting <STRONG>shtool</STRONG>
+script can be nevertheless <EM>used</EM> in <EM>all</EM> types of source trees. Notice here: given that one includes
+<FONT SIZE="-1">GNU</FONT> <STRONG>shtool</STRONG> verbatim into an own source tree, one is justified in saying that it
+remains separate from the own package, and that this way one is simply just <EM>using</EM>  <STRONG>shtool</STRONG>. So, in this situation, there is no requirement that the package itself is licensed under the
+<FONT SIZE="-1">GNU</FONT> General Public License in order to take advantage of
+ <STRONG>shtool</STRONG>. Keep this in mind ;)
+<LI><STRONG><A NAME="item_It_has_to_be_modularized_for_fle">It has to be modularized for flexibility reasons</A></STRONG>
+<P>
+This was achieved by using an auxiliary tool <CODE>shtoolize(1)</CODE>
+which can be used to build individual <CODE>shtool</CODE> scripts out of the ingredient shell scripts. This way if one don't need all
+the available functionality one can assemble together an individual <CODE>shtool</CODE> script.
+</OL>
+<P>
+<H1><A NAME="GLOBAL_OPTIONS"><font face="Arial,Helvetica">GLOBAL OPTIONS</A></H1></font>
+<P>
+The following <EM>global options</EM> are available for <STRONG>shtool</STRONG>. Any <EM>command</EM>s are ignored if one of them is present on the <STRONG>shtool</STRONG> command line.
+<DL>
+<DT><P><STRONG><A NAME="item__h_">-h, --help</A></STRONG><DD>
+Displays a short help page describing the usage of <STRONG>shtool</STRONG> and it's ingredient <EM>command</EM>s in a compact way.
+<DT><P><STRONG><A NAME="item__v_">-v, --version</A></STRONG><DD>
+Displays the version number of <STRONG>shtool</STRONG>.
+<DT><P><STRONG><A NAME="item__d_">-d, --debug</A></STRONG><DD>
+Displays shell trace messages for debugging purposes.
+<DT><P><STRONG><A NAME="item__r_">-r, --recreate</A></STRONG><DD>
+Recreate the <STRONG>shtool</STRONG> script with its own individual <STRONG>shtoolize</STRONG> call.
+</DL>
+<P>
+<H1><A NAME="COMMANDS"><font face="Arial,Helvetica">COMMANDS</A></H1></font>
+<P>
+The following <EM>command</EM>s are provided by <STRONG>shtool</STRONG>. They are all called via ``<CODE>shtool</CODE>  <EM>command</EM>''. Any trailing <EM>command_options</EM> are specific to the particular <EM>command</EM>. They are listed (here and also below) sorted by topic, i.e. related
+commands are listed side-by-side.
+<DL>
+<DT><P><STRONG><A NAME="item_echo">echo</A></STRONG><DD>
+<CODE>echo(1)</CODE> style print command providing special expansion
+constructs (terminal bold mode, environment details, date) and newline
+control.
+<DT><P><STRONG><A NAME="item_mdate">mdate</A></STRONG><DD>
+Pretty-prints the last modification time of a file or directory.
+<DT><P><STRONG><A NAME="item_table">table</A></STRONG><DD>
+Pretty-prints a field-sperarated list as a table.
+<DT><P><STRONG><A NAME="item_prop">prop</A></STRONG><DD>
+Display a processing indication though a running propeller.
+<DT><P><STRONG><A NAME="item_move">move</A></STRONG><DD>
+<CODE>mv(1)</CODE> style command, but can rename/move multiple files at
+once and allows source files just to be deleted if contents didn't change.
+<DT><P><STRONG><A NAME="item_install">install</A></STRONG><DD>
+Install a program, script or datafile in a portable way.
+<DT><P><STRONG><A NAME="item_mkdir">mkdir</A></STRONG><DD>
+<CODE>mkdir(1)</CODE> style command providing support for auto-parent-dir
+creation, directory permission control and smart skipping if directory
+already exists.
+<DT><P><STRONG><A NAME="item_mkln">mkln</A></STRONG><DD>
+<CODE>ln(1)</CODE> style command providing automatic calculation and usage
+of relative links if possible.
+<DT><P><STRONG><A NAME="item_mkshadow">mkshadow</A></STRONG><DD>
+Create a shadow source tree by the help of symbolic links.
+<DT><P><STRONG><A NAME="item_fixperm">fixperm</A></STRONG><DD>
+Fix file permissions inside a source tree by cleaning up the permission
+bits.
+<DT><P><STRONG><A NAME="item_tarball">tarball</A></STRONG><DD>
+Roll standardized distribution tarballs.
+<DT><P><STRONG><A NAME="item_guessos">guessos</A></STRONG><DD>
+Simple operating system and platform architecture guesser which determines a
+<FONT SIZE="-1">GNU</FONT>
+ <EM>platform-triple</EM> style identification string.
+<DT><P><STRONG><A NAME="item_arx">arx</A></STRONG><DD>
+Extended archive command which can even put existing archives into an
+archive.
+<DT><P><STRONG><A NAME="item_slo">slo</A></STRONG><DD>
+Separate linker options by library class.
+<DT><P><STRONG><A NAME="item_scpp">scpp</A></STRONG><DD>
+An additional
+<FONT SIZE="-1">C</FONT> source file pre-processor for sharing
+<CODE>cpp(1)</CODE> code, internal variables and internal functions.
+<DT><P><STRONG><A NAME="item_version">version</A></STRONG><DD>
+Maintain a version information file in either Text,
+<FONT SIZE="-1">C/C++</FONT> or Perl format.
+<DT><P><STRONG><A NAME="item_path">path</A></STRONG><DD>
+Deal with shell path variables.
+</DL>
+<P>
+<H1><A NAME="COMMAND_DESCRIPTION"><font face="Arial,Helvetica">COMMAND DESCRIPTION</A></H1></font>
+<P>
+In the following the available <EM>commands</EM> and their corresponding
+<EM>command_options</EM> are described in detail.
+<DL>
+<DT><P><STRONG>echo [-n] [-e] str</STRONG><DD>
+This is an <CODE>echo(1)</CODE> style print command which provides special
+expansion constructs (terminal bold mode, environment details, date) and
+newline control. Per default <EM>string</EM> is written to <EM>stdout</EM> followed by a newline character (``<CODE>\n</CODE>''). When option ``<STRONG>-n</STRONG>'' is used this newline character is left out.
+<P>
+The <EM>str</EM> can contain special ``<STRONG>%</STRONG><EM>x</EM>'' constructs which which are expanded before the output is written if
+option ``<STRONG>-e</STRONG>'' is used. Currently the following constructs are recognized: ``<STRONG>%B</STRONG>'' for switching to terminal bold mode, ``<STRONG>%b</STRONG>'' for switching terminal mode back to normal display mode, ``<STRONG>%u</STRONG>'' for the current user name, ``<STRONG>%U</STRONG>'' for the current user id (numerical), ``<STRONG>%h</STRONG>'' for the current hostname, ``<STRONG>%d</STRONG>'' for the current domain name, ``<STRONG>%D</STRONG>'' for the current day of the month, ``<STRONG>%M</STRONG>'' for the current month (numerical), ``<STRONG>%m</STRONG>'' for the current month name and ``<STRONG>%Y</STRONG>'' for the current year.
+<P>
+The trick of this command is that it provides a portable ``<STRONG>-n</STRONG>'' option and hides the gory details needed to find out the environment
+details.
+<P>
+Examples:
+<P>
+<PRE> #   shell script
+ shtool echo -n -e &quot;Enter your name [%B%u%b]: &quot;; read name
+ shtool echo -e &quot;Your Email address might be %u@%h%d&quot;
+ shtool echo -e &quot;The current date is %D-%m-%Y&quot;
+</PRE>
+<DT><P><STRONG>mdate [-n] [-z] [-s] [-d] [-f str] [-o spec] path</STRONG><DD>
+This command pretty-prints the last modification time of a file or
+directory
+<EM>path</EM>. Option ``<STRONG>-n</STRONG>'' suppresses the output of a trailing newline character, option ``<STRONG>-z</STRONG>'' pads numeric day (and optionally month) with a leading zero, option ``<STRONG>-s</STRONG>'' shortens the months name to an abbreviation of three characters, option
+``<STRONG>-d</STRONG>'' replaces the month name with the corresponding digits, option ``<STRONG>-f</STRONG>'' uses <EM>str</EM> as the field separator (default is a single space character) and option ``<STRONG>-o</STRONG>'' specified the order in which the fields are printed.
+<P>
+The default for <EM>spec</EM> is ``<CODE>dmy</CODE>'' which means an output of ``&lt;day&gt; &lt;month&gt; &lt;year&gt;''. Any combination of the chars ``<CODE>d</CODE>'', ``<CODE>m</CODE>'' and ``<CODE>y</CODE>'' or allowed for <EM>spec</EM>.
+<P>
+The trick of this command is that it provides a portable way to find out
+the date of a file or directory while still allowing one to specify the
+format of the date display.
+<P>
+Examples:
+<P>
+<PRE> #   shell script
+ shtool mdate -n /
+ shtool mdate -f '/' -z -d -o ymd foo.txt
+ shtool mdate -f '-' -s foo.txt
+</PRE>
+<DT><P><STRONG>table [-F sep] [-w width] [-c cols] [-s strip] strsepstr...</STRONG><DD>
+This pretty-prints a <EM>sep</EM>-sperarated list of <EM>str</EM>ings as a table. Per default a colon-separated list (<EM>sep</EM>=``:'') is pretty printed as a three-column (&lt;cols&gt;=3) table no longer than 79 chars (<EM>strip</EM>=79) is generated where each column is 15 characters wide (<EM>width</EM>=15).
+<P>
+The trick of this command is that it avoids to use the unportable
+<CODE>tr(1)</CODE> and <CODE>fmt(1)</CODE> commands and instead is based
+entirely on <CODE>sh(1),</CODE> <CODE>awk(1)</CODE> and <CODE>sed(1)</CODE>
+functionality.
+<P>
+Example:
+<P>
+<PRE> #   shell script
+ shtool table -F , -w 5 -c 4 &quot;1,2,3,4,5,6,7,8,9,10,11,12&quot;
+</PRE>
+<DT><P><STRONG>prop [-p str]</STRONG><DD>
+This command displays a processing indication though a running propeller.
+The option ``<STRONG>-p</STRONG>'' can be used to set a particular prefix <EM>str</EM> which is displayed in front of the propeller. The default is no prefix
+string, i.e. the propeller is at the left border of the terminal. This
+command is intended to be run at the end of a pipe (``<CODE>|</CODE>'') sequence where on <CODE>stdin</CODE>
+logging/processing informations found. For every line on <CODE>stdin</CODE> the propeller cycles one step clock-wise.
+<P>
+The trick of this command is that it provides a portable and easy to use
+way to display such nice and psychologically important process indicators.
+<P>
+Example:
+<P>
+<PRE> #   shell script
+ configure 2&gt;&amp;1 |\
+     tee logfile |\
+     shtool prop -p &quot;Configuring sources&quot;
+</PRE>
+<DT><P><STRONG>move [-v] [-t] [-e] [-p] src-file dst-file</STRONG><DD>
+This is a <CODE>mv(1)</CODE> style command, but with two special features:
+First if option ``<STRONG>-e</STRONG>'' (`expand') is used and an asterisk occurs somewhere in <EM>src</EM>
+one can use ``<CODE>%</CODE><EM>n</EM>'' (where <EM>n</EM> is <CODE>1</CODE>,<CODE>2</CODE>,...) in <EM>dst-file</EM>. This is useful for renaming multiple files at once. Second, if option ``<STRONG>-p</STRONG>'' (for `preserve') is used and <EM>src-file</EM> and <EM>dst-file</EM> are byte-wise the same it just deletes <EM>src-file</EM>. The intention is that the permissions and time stamps on <EM>dst</EM> are't changed which is important if <EM>dst-file</EM> is used in conjunction with Makefiles. Option ``<STRONG>-v</STRONG>'' (verbose) can be used to enable the output of extra processing
+information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential shell commands
+which are executed.
+<P>
+The trick of this command is that it can rename multiple files at once and
+preserves the timestamps if the contents isn't changed.
+<P>
+Examples:
+<P>
+<PRE> #   shell script
+ shtool move -v -e *.txt %1.asc
+</PRE>
+<P>
+<PRE> #   Makefile
+ scanner.c: scanner.l
+     lex scanner.l
+     shtool move -t -p lex.yy.c scanner.c
+</PRE>
+<DT><P><STRONG>install [-v] [-t] [-c] [-C] [-s] [-m mode] [-o owner] [-g group] [-e ext] file path</STRONG><DD>
+This command installs a program, script or datafile (dependent on <EM>mode</EM>) in a portable way while providing all important options of the
+<FONT SIZE="-1">BSD</FONT> <CODE>install(1)</CODE> command. Per default <EM>file</EM> is moved to the target <EM>path</EM>, but with option ``<STRONG>-c</STRONG>'' <EM>file</EM> is copied. The target file is created with owner/group set to the current
+active uid/gid, but if this script is called as root (uid 0) the options ``<STRONG>-o</STRONG>'' and ``<STRONG>-g</STRONG>'' can be used to override this.
+<P>
+Additionally program executables is stripped with <CODE>strip(1)</CODE>
+after installation if option ``<STRONG>-s</STRONG>'' is used. Option ``<STRONG>-C</STRONG>'' is like ``<STRONG>-c</STRONG>'', except if the destination file already exists and the files are the
+same, the source is just removed. Option ``<STRONG>-e</STRONG>'' can be used to set an implicit executable extension. Option ``<STRONG>-v</STRONG>'' (verbose) can be used to enable the output of extra processing
+information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential shell commands
+which are executed.
+<P>
+The trick of this command is that it provides the functionality of
+<FONT SIZE="-1">BSD</FONT> <CODE>install(1)</CODE> in a portable emulated
+way.
+<P>
+Example:
+<P>
+<PRE> #   Makefile
+ install:
+      :
+     shtool install -c -s -m 4755 foo $(bindir)/
+     shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
+</PRE>
+<DT><P><STRONG>mkdir [-t] [-f] [-p] [-m mode] dir [dir ...]</STRONG><DD>
+This is a <CODE>mkdir(1)</CODE> style command providing support for
+auto-parent-dir creation (if option ``<STRONG>-p</STRONG>'' is used), directory permission control (with option ``<STRONG>-m</STRONG>  <EM>mode</EM>'' where <EM>mode</EM> can be in any of the formats specified to the <CODE>chmod(1)</CODE>
+command) and smart skipping if <EM>dir</EM> already exists (triggered by the force option ``<STRONG>-f</STRONG>''). Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential shell commands
+which are executed.
+<P>
+The trick of this command is that it provides both a portable ``<STRONG>-p</STRONG>'' functionality and the ability to be smart if the directory already
+exists which is important for installation procedures.
+<P>
+Example:
+<P>
+<PRE> #   Makefile
+ install:
+     shtool mkdir -f -p -m 755 $(bindir)
+     shtool mkdir -f -p -m 755 $(mandir)/man1
+      :
+</PRE>
+<DT><P><STRONG>mkln [-t] [-f] [-s] src-path [src-path ...] dst-path</STRONG><DD>
+This is a <CODE>ln(1)</CODE> style command which provides automatic
+calculation and usage of relative links if possible, i.e. usually if <EM>src-path</EM> and <EM>dst-path</EM>
+are not absolute paths or at least they share a common prefix except the
+root directory (``<CODE>/</CODE>''). When more than one <EM>src-path</EM> is specified, all of them are linked into <EM>dst-path</EM>. Options ``<STRONG>-f</STRONG>'' and ``<STRONG>-s</STRONG>'' are similar to <CODE>ln(1),</CODE> i.e. they force the creation of the
+link (even if it exists) and create a symbolic link instead of a hard-link.
+Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential ``<CODE>ln</CODE>'' command which is executed.
+<P>
+The trick of this command is that it tried hard to calculate the paths to
+get the maximum possible relative paths.
+<P>
+Example:
+<P>
+<PRE> #   shell script
+ shtool mkln -s foo/bar baz/quux
+</PRE>
+<DT><P><STRONG>mkshadow [-v] [-t] [-a] src-dir dst-dir</STRONG><DD>
+This command creates a shadow tree of <EM>src-dir</EM> under <EM>dst-dir</EM> by recreating the directory hierarchy of <EM>src-dir</EM> under <EM>dst-dir</EM> and by creating the files of <EM>src-dir</EM> by linking them into the corresponding directories under <EM>dst-dir</EM> via symbolic links. When <EM>src-dir</EM> can be reached via relative paths from <EM>dst-dir</EM>, relative symbolic links are used, too.
+<P>
+Option ``<STRONG>-v</STRONG>'' (verbose) can be used to enable some displaying of processing
+information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to display all commands which are executed in order
+to construct <EM>dst-dir</EM>. Option ``<STRONG>-a</STRONG>'' (all) can be used to really shadow all files and directories in <EM>src-dir</EM>. Per default
+<FONT SIZE="-1">CVS</FONT> related files and directories, backup files,
+object files, etc. are not shadowed.
+<P>
+The trick of this is that is provides such a high-level functionality with
+a single command and hides all gory details.
+<P>
+Example:
+<P>
+<PRE> #   shell script
+ shtool mkshadow -v -a . /tmp/shadow
+</PRE>
+<DT><P><STRONG>fixperm [-v] [-t] path [ path ... ]</STRONG><DD>
+This command fixes file permissions inside a source tree under <EM>path</EM> by cleaning up the permission bits. It determines the cleaned up permission
+from the already set bits. It's intended to be run before a tarball is
+rolled out of the source tree. Option ``<STRONG>-v</STRONG>'' can be used to display some processing information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential shell commands
+which are executed.
+<P>
+The trick is that this is more convinient that having to set the
+permissions manually or with a large file list.
+<P>
+Example:
+<P>
+<PRE>  #  Makefile.in
+  dist:
+      shtool fixperm -v *
+      ...
+</PRE>
+<DT><P><STRONG>tarball [-t] [-v] [-o tarball] [-c prog] [-u user] [-g group] [-e pattern] path [path ...]</STRONG><DD>
+This command is for `rolling' distribution `tarballs', i.e. for the
+creation of distribution files generated by `<CODE>tar</CODE>'. The important aspects of standardized free software tarballs are: first
+they have to unpack into a single top-level directory; second this
+top-level directory should correspond to the tarball filename (i.e. a
+tarball `<CODE>foobar-0.8.15.tar</CODE>' per convention unpacks into a top-level directory `<CODE>foobar-0.8.15/</CODE>'); third the files in the tarball should be sorted to allow users to use
+the `<CODE>tar tvf -</CODE>' command in a reasonable way; fourth the owner and group of the files in
+the tarball for security reasons can be set to arbitrary names.
+<P>
+The input files are given by the file or directory arguments <EM>path</EM>. Directories are expanded before the comma-separated exclude (option <STRONG>-e</STRONG>)
+<EM>pattern</EM>s (<STRONG>grep</STRONG> regular expressions) are used to filter the list. The default filter is ``<CODE>CVS,\\.cvsignore,\\.[oa]\$</CODE>''. Then the tarball is created with its files owned by <EM>user</EM> (option <STRONG>-u</STRONG>) and <EM>group</EM> (option
+<STRONG>-g</STRONG>). Finally the resulting tarball is piped through an optional compression
+(option <STRONG>-c</STRONG>) program and written to the output file <EM>tarball</EM> (option
+<STRONG>-o</STRONG>). Option ``<STRONG>-v</STRONG>'' can be used to display the files which are stored in the tarball. Option
+``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the essential shell commands
+which are executed.
+<P>
+The trick of this command is that it combines the complex process of
+rolling a good tarball into a <EM>single</EM> command.
+<P>
+Example:
+<P>
+<PRE>  #  Makefile.in
+  dist:
+      ...
+      V=`shtool version -d short ...'; \
+      shtool tarball -o foobar-$$V.tar.gz -c 'gzip -9' \
+                     -u bar -g gnu -e 'CVS,\.cvsignore' .
+</PRE>
+<DT><P><STRONG>guessos</STRONG><DD>
+This command is a simple operating system and platform architecture guesser which determines a so-called
+<FONT SIZE="-1">``GNU</FONT>
+ <EM>platform-triple</EM>'' style identification string ``<EM>arch</EM>-<EM>hardware</EM>-<EM>os</EM><EM>osversion</EM>''. For instance a FreeBSD 3.1 running on a Pentium
+<FONT SIZE="-1">II</FONT> is identified as ``<CODE>i686-pc-freebsd3.1</CODE>''. When you need a more sophisticated platform guesser, use the
+<FONT SIZE="-1">GNU</FONT>
+<CODE>config.guess</CODE>/<CODE>config.sub</CODE> scripts, please.
+<P>
+<PRE> #   configure.in
+ OS=`shtool guessos`
+</PRE>
+<DT><P><STRONG>arx [-t] [-C cmd] op archive file [file ...]</STRONG><DD>
+This is a wrapper around the archive (``<CODE>ar</CODE>'') tool. It provides the ability to create archives out of existing
+archives, i.e. if one of <EM>file</EM> matches ``<CODE>*.a</CODE>'' the archive member files of <EM>file</EM> are used instead of <EM>file</EM>
+itself. When option ``<STRONG>-t</STRONG>'' (trace) is given <STRONG>arx</STRONG> shows the actually involved shell commands. Option ``<STRONG>-C</STRONG>'' can be used to set the ``ar'' command to <EM>cmd</EM>.
+<P>
+The trick of this command is the automatic handling of archive members
+which is especially interesting if one wants to construct a (usually
+top-level) library archive out of pre-build sub-library archives (usually
+staying inside subdirs) in a large source tree.
+<P>
+Example:
+<P>
+<PRE> #   Makefile
+ AR=ar
+ RANLIB=ranlib
+   :
+ OBJS=foo.o bar.o
+ LIBS=baz/libbaz.a quux/libquux.a
+   :
+ libfoo.a: $(OBJS) $(LIBS)
+     shtool arx -C $(AR) rc libfoo.a $(OBJS) $(LIBS)
+     $(RANLIB) libfoo.a
+</PRE>
+<DT><P><STRONG>slo [-p str] -- -Ldir -llib [ -Ldir -llib ... ]</STRONG><DD>
+This command separates the linker options ``<STRONG>-L</STRONG>'' and ``<STRONG>-l</STRONG>'' by library class. It's argument line can actually be an abitrary command
+line where those options are contained. <STRONG>slo</STRONG> parses these two options only and ignores the remaining contents. The
+result is a trivial shell script on <CODE>stdout</CODE> which defines six variables containing the ``<STRONG>-L</STRONG>'' and ``<STRONG>-l</STRONG>'' options sorted by class:
+<P>
+``<CODE>SLO_DIRS_OBJ</CODE>'' and ``<CODE>SLO_LIBS_OBJ</CODE>'' contains the ``<STRONG>-L</STRONG>'' and ``<STRONG>-l</STRONG>'' options of static libraries, ``<CODE>SLO_DIRS_PIC</CODE>'' and ``<CODE>SLO_LIBS_PIC</CODE>'' contains the ``<STRONG>-L</STRONG>'' and ``<STRONG>-l</STRONG>'' options of static libraries containing
+<FONT SIZE="-1">PIC</FONT> (``Position Independent Code'') and ``<CODE>SLO_DIRS_DSO</CODE>'' and ``<CODE>SLO_LIBS_DSO</CODE>'' contains the ``<STRONG>-L</STRONG>'' and ``<STRONG>-l</STRONG>'' options of shared libraries. The <STRONG>-p</STRONG> option can be used to change the default variable prefix from ``<CODE>SLO_</CODE>'' to <EM>str</EM>.
+<P>
+The intent of this separation is to provide a way between static and shared libraries which is important if one wants to link custom DSOs against libraries, because not all platforms all one to link these DSOs against shared libraries. So one first has to separate out the shared libraries and link the
+<FONT SIZE="-1">DSO</FONT> only against the static libraries. One can use this command also to just sort the options.
+<P>
+Example:
+<P>
+<PRE>  #   configure.in
+  LINK_STD=&quot;$LDFLAGS $LIBS&quot;
+  eval `shtool slo $LINK_STD`
+  LINK_DSO=&quot;$SLO_DIRS_OBJ $SLO_LIBS_OBJ $SLO_DIRS_PIC $SLO_LIBS_PIC&quot;
+    :
+</PRE>
+<DT><P><STRONG>scpp [-v] [-p] [-f] filter] [-o ofile] [-t tfile] [-M mark] [-D dname] [-C cname] file [file ...]</STRONG><DD>
+This command is an additional
+<FONT SIZE="-1">ANSI</FONT>
+<FONT SIZE="-1">C</FONT> source file pre-processor for sharing <CODE>cpp(1)</CODE> code segments, internal variables and internal functions. The intention for this comes from writing libraries in
+<FONT SIZE="-1">ANSI</FONT>
+<FONT SIZE="-1">C.</FONT> Here a common shared internal header file is usually used for sharing information between the library source files.
+<P>
+The operation is to parse special constructs in <EM>file</EM>s, generate a few things out of these constructs and insert them at
+position <EM>mark</EM> in <EM>tfile</EM>
+by writing the output to <EM>ofile</EM>. Additionally the <EM>file</EM>s are never touched or modified. Instead the constructs are removed later
+by the <CODE>cpp(1)</CODE> phase of the build process. The only
+prerequisite is that every <EM>file</EM> has a ``<CODE>#include &quot;</CODE><EM>ofile</EM><CODE>&quot;</CODE>'' at the top.
+<P>
+This command provides the following features: First it avoids namespace
+pollution and reduces prototyping efforts for internal symbols by
+recognizing functions and variables which are defined with the storage
+class identifier ``<EM>cname</EM>''. For instance if <EM>cname</EM> is ``intern'', a function ``<CODE>intern
+void *foobar(int quux)</CODE>'' in one of the <EM>file</EM>s is translated into both a ``<CODE>#define foobar __foobar</CODE>'' and a ``<CODE>extern void *foobar(int quux);</CODE>'' in
+<EM>ofile</EM>. Additionally a global ``<CODE>#define</CODE>  <EM>cname</EM>  <CODE>/**/</CODE>'' is also created in <EM>ofile</EM> to let the compiler silently ignore this additional storage class
+identifier.
+<P>
+Second, the library source files usually want to share <CODE>typedef</CODE>s,
+<CODE>#define</CODE>s, etc. over the source file boundaries. To achieve this one can either
+place this stuff manually into <EM>tfile</EM> or use the second feature of
+<STRONG>scpp</STRONG>: All code in <EM>file</EM>s encapsulated with ``<CODE>#if </CODE><EM>dname</EM> ...
+<CODE>#endif</CODE>'' is automatically copied to <EM>ofile</EM>. Additionally a global ``<CODE>#define</CODE>  <EM>dname</EM>  <CODE>0</CODE>'' is also created in <EM>ofile</EM> to let the compiler silently skip this parts (because it was already found
+in the header).
+<P>
+Option ``<STRONG>-v</STRONG>'' can be used to enable some processing output. Option ``<STRONG>-p</STRONG>'' can be used to make the decision whether to overwrite <EM>ofile</EM>
+independent of the generated ``#line'' lines. This is useful for Makefiles
+if the real contents of <EM>ofile</EM> will not change, just line numbers. Option ``<STRONG>-f</STRONG>'' (which can occur multiple times) can be used to apply one or more
+pre-processing <CODE>sed(1)</CODE> <EM>filter</EM> commands (usually of type ``<CODE>s/.../.../</CODE>'') to each input file before their input is parsed.
+<P>
+Example:
+<P>
+<PRE>  #   Makefile
+  SRCS=foo_bar.c foo_quux.c
+  foo_p.h: foo_p.h.in
+       shtool scpp -o foo_p.h -t foo_p.h.in \
+                   -M %%MARK%% -D cpp -C intern $(SRCS)
+</PRE>
+<P>
+<PRE>  /* foo_p.h.in */
+  %%MARK%%
+</PRE>
+<P>
+<PRE>  /* foo_bar.c */
+  intern int ours;
+  static int myone = 0815;
+  intern int bar(void)
+  {
+      ours += myone;
+  }
+</PRE>
+<P>
+<PRE>  /* foo_quux.c */
+  int main(int argc, char *argv[])
+  {
+      int i;
+      ours = OURS_INIT
+      for (i = 0; i &lt; 10; i++) {
+          bar();
+          printf(&quot;ours now %d\n&quot;, ours);
+      }
+      return 0;
+  }
+</PRE>
+<DT><P><STRONG>version [-l lang] [-n name] [-p prefix] [-s version] [-e] [-i knob] [-d type] file</STRONG><DD>
+This command generates and maintains a version information file <EM>file</EM> for program name <EM>name</EM> in either textual (<EM>lang</EM>=``<CODE>txt</CODE>''),
+<FONT SIZE="-1">ANSI</FONT>
+<FONT SIZE="-1">C</FONT> (<EM>lang</EM>=``c'') or Perl (<EM>lang</EM>=``perl'') language. The version is always described with a triple &lt;<EM>version</EM>,<EM>revision</EM>,<EM>level</EM>&gt; and is represented by a string which always matches the regular expression
+``<CODE>[0-9]+\.[0-9]+[sabp.][0-9]+</CODE>''. When the option ``<STRONG>-s</STRONG>'' is given, the contents of <EM>file</EM> is overridden with the specified <EM>version</EM>.
+<P>
+When option ``<STRONG>-i</STRONG>'' is used, the current version in <EM>file</EM> is updated by increasing one element of the version where <EM>knob</EM> can be one of the following: ``<CODE>v</CODE>'' for increasing the version by 1 (and resetting revision and level to 0),
+``<CODE>r</CODE>'' for increasing the revision by 1 (and resetting level to 0) or ``<CODE>l</CODE>'' for increasing the level by 1. Option ``<STRONG>-e</STRONG>'' can be used to interactively enter a new version.
+<P>
+Unless option ``<STRONG>-e</STRONG>'', ``<STRONG>-i</STRONG>'' or ``<STRONG>-s</STRONG>'' is specified, the performed action is to display the current version.
+Option ``<STRONG>-d</STRONG>'' then can be used to control the display type: ``<CODE>short</CODE>'' for a short version display, ``<CODE>long</CODE>'' for a longer version display, ``<CODE>hex</CODE>'' for a hexadecial display of the version and ``<CODE>libtool</CODE>'' for a format suitable for use with
+<FONT SIZE="-1">GNU</FONT> libtool.
+<P>
+The hexadecimal format for a version <CODE>v.rtl</CODE> is <CODE>VVRRTLL</CODE> where <CODE>VV</CODE>
+and <CODE>RR</CODE> directly correspond to <CODE>v</CODE> and <CODE>r</CODE>, <CODE>T</CODE> encodes the level type as <CODE>9</CODE>, <CODE>2</CODE>, <CODE>1</CODE>, <CODE>0</CODE> (representing <CODE>s</CODE>, <CODE>p</CODE>/<CODE>.</CODE>, <CODE>b</CODE>, <CODE>a</CODE>
+in this order) and <CODE>LL</CODE> is either directly corresponding to <CODE>l</CODE> or set to <CODE>99</CODE> if level type is <CODE>s</CODE>.
+<P>
+Example:
+<P>
+<PRE> #   shell script
+ shtool version -l c -n FooBar -p foobar -s 1.2b3 version.c
+</PRE>
+<P>
+<PRE> #   configure.in
+ V=`shtool version -l c -d long version.c`
+ echo &quot;Configuring FooBar, Version $V&quot;
+</PRE>
+<DT><P><STRONG>path [-s] [-r] [-d] [-b] [-m] [-p path] str [str ...]</STRONG><DD>
+This command deals with shell <CODE>$PATH</CODE> variables. It can find a program executable in <CODE>$PATH</CODE> or <EM>path</EM> through one or more filenames (given by one or more <EM>str</EM> arguments). The result is the absolute filesystem path to the program
+displayed on <CODE>stdout</CODE> plus an exit code of 0 if it was really found.
+<P>
+The option ``<STRONG>-s</STRONG>'' can be used to suppress the output which is useful to just test whether
+a program exists with the help of the return code. The option ``<STRONG>-m</STRONG>'' enables some magic where currently for the programs ``<CODE>perl</CODE>'' and ``<CODE>cpp</CODE>'' an advanced magic search is done. The option ``<STRONG>-r</STRONG>'' can be used to transform a forward path to a subdirectory into a reverse
+path. Option ``<STRONG>-d</STRONG>'' and ``<STRONG>-b</STRONG>'' just output the directory or base name of <EM>str</EM>.
+<P>
+Examples:
+<P>
+<PRE> #   shell script
+ awk=`shtool path -p &quot;${PATH}:.&quot; gawk nawk awk`
+ perl=`shtool path -m perl`
+ cpp=`shtool path -m cpp`
+ revpath=`shtool path -r path/to/subdir`
+</PRE>
+</DL>
+<P>
+<H1><A NAME="SEE_ALSO"><font face="Arial,Helvetica">SEE ALSO</A></H1></font>
+<P>
+<CODE>sh(1),</CODE> <CODE>cp(1),</CODE> <CODE>rm(1),</CODE>
+<CODE>mkdir(1),</CODE> <CODE>awk(1),</CODE> <CODE>sed(1).</CODE>
+<P>
+<H1><A NAME="HISTORY"><font face="Arial,Helvetica">HISTORY</A></H1></font>
+<P>
+Some scripts contained in <STRONG>shtool</STRONG> were already written in 1994 by <EM>Ralf
+S. Engelschall</EM> for use inside some private source trees. Then they evolved into more elaborated versions over the years and were used in various free software projects like ePerl,
+<FONT SIZE="-1">WML,</FONT> iSelect, gFONT, etc. They were complemented with other scripts from the author which he wrote in March 1998 for the ``Apache Autoconf-style Interface''
+<FONT SIZE="-1">(APACI).</FONT> In April 1999 the
+ <STRONG>shtool</STRONG>
+package was created out of the accumulated master versions of the scripts and in June 1999 it entered the status of an official
+<FONT SIZE="-1">GNU</FONT> program and this way finally joined the group of
+ <STRONG>autoconf</STRONG>, <STRONG>automake</STRONG> and <STRONG>libtool</STRONG>.
+<P>
+<H1><A NAME="AUTHOR"><font face="Arial,Helvetica">AUTHOR</A></H1></font>
+<P>
+<PRE> Ralf S. Engelschall
+ rse@engelschall.com
+ www.engelschall.com
+</PRE>
+<p>
+<hr noshade size="1">
+<DIV id="sf">
+<p>
+Return to <A HREF="/home.html">GNU's home page</A>.
+<p>
+Please send FSF &amp; GNU inquiries &amp; questions to
+<A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>.
+There are also <A HREF="/home.html#ContactInfo">other ways to
+contact</A> the FSF.
+Please send comments on these web pages to
+<A HREF="mailto:webmasters@gnu.org">webmasters@gnu.org</A>,
+send other questions to
+<A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>.
+Verbatim copying and distribution of this entire article is
+permitted in any medium, provided this notice is preserved.<BR>
+<p>
+Copyright &copy; 1999-2000 <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</A>
+<A HREF="mailto:rse@gnu.org">&lt;rse@gnu.org&gt;</A><BR>
+</div>
+</blockquote>
+</blockquote>
+</body>
+</html>

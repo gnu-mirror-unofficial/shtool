@@ -1,0 +1,8 @@
+
+#include 'template.wml'
+
+#use wml::imp::generic
+
+{: [[s/<DT><STRONG>/<DT><P><STRONG>/g]] [[s/<DD>\n<P>/<DD>\n/sg]] 
+   <import src="shtool-manual.pod"> :}
+

@@ -1,0 +1,66 @@
+
+#use wml::std::page
+
+<page bgcolor="#FFFFFF" text="#000000" 
+      link="#3333FF" alink="#FF0000" vlink="#3333FF"
+      indent=2>
+
+<head>
+<title>GNU shtool - GNU Project - Free Software Foundation (FSF)</title>
+<links rev="made" href="mailto:rse@gnu.org">
+<style type="text/css"><!--
+A:link    { color: #3333FF; }
+A:active  { color: #3333FF; }
+A:visited { color: #3333FF; }
+\#sf  { font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+\#sfh { font-weight: bold; font-size: 18pt; line-height: 18pt; \
+        font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H1    { font-weight: bold; font-size: 18pt; line-height: 18pt; \
+        font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H2    { font-weight: bold; font-size: 14pt; line-height: 14pt; \
+        font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+H3    { font-weight: bold; font-size: 12pt; line-height: 12pt; \
+        font-family: arial,helvetica; font-variant: normal; font-style: normal; }
+--></style>
+</head>
+
+<img src="shtool.jpg" alt="GNU shtool">
+
+<p>
+<div id=sfh>
+  GNU shtool - The GNU Portable Shell Tool
+</div>
+<div id=sf>
+  Copyright &copy; 1994-2000 
+  <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</a> 
+  &lt;<a href="mailto:rse@gnu.org">rse@gnu.org</a>&gt;
+</div>
+
+<<BODY>>
+
+<p>
+<hr noshade size=1>
+
+<div id=sf>
+<p>
+Return to <A HREF="/home.html">GNU's home page</A>.
+
+<p>
+Please send FSF &amp; GNU inquiries &amp; questions to 
+<A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>.
+There are also <A HREF="/home.html#ContactInfo">other ways to
+contact</A> the FSF.
+Please send comments on these web pages to
+<A HREF="mailto:webmasters@gnu.org">webmasters@gnu.org</A>,
+send other questions to
+<A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>.
+Verbatim copying and distribution of this entire article is
+permitted in any medium, provided this notice is preserved.<BR>
+<p>
+Copyright &copy; 1999-2000 <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</A>
+<A HREF="mailto:rse@gnu.org">&lt;rse@gnu.org&gt;</A><BR>
+# Last Modified: <get-var WML_SRC_ISOTIME>
+</div>
+
+..BODY>>
+
