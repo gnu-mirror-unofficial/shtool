@@ -247,7 +247,7 @@ Pretty-prints the last modification time of a file or directory.
 <P></P>
 <DT><P><STRONG><A NAME="item_table"><STRONG>table</STRONG></A></STRONG><BR>
 <DD>
-Pretty-prints a field-sperarated list as a table.
+Pretty-prints a field-separately list as a table.
 <P></P>
 <DT><P><STRONG><A NAME="item_prop"><STRONG>prop</STRONG></A></STRONG><BR>
 <DD>
@@ -387,7 +387,7 @@ the date display.</P>
 <DT><P><STRONG><A NAME="item_table_%5B%2DF%7C%2D%2Dfield%2Dsep_sep%5D_%5B%2Dw%7"><STRONG>table</STRONG> [<STRONG>
 <FONT SIZE="-1">-F</FONT></STRONG>|<STRONG>--field-sep</STRONG> <EM>sep</EM>] [<STRONG>-w</STRONG>|<STRONG>--width</STRONG> <EM>width</EM>] [<STRONG>-c</STRONG>|<STRONG>--columns</STRONG> <EM>cols</EM>] [<STRONG>-s</STRONG>|<STRONG>--strip</STRONG> <EM>strip</EM>] <EM>str</EM><STRONG>sep</STRONG><EM>str</EM>...</A></STRONG><BR>
 <DD>
-This pretty-prints a <EM>sep</EM>-sperarated list of <EM>str</EM>ings as a table. Per
+This pretty-prints a <EM>sep</EM>-separated list of <EM>str</EM>ings as a table. Per
 default a colon-separated list (<EM>sep</EM>=``:'') is pretty printed as a
 three-column (&lt;cols&gt;=3) table no longer than 79 chars (<EM>strip</EM>=79) is
 generated where each column is 15 characters wide (<EM>width</EM>=15).
@@ -423,7 +423,7 @@ one can use ``<CODE>%</CODE><EM>n</EM>'' (where <EM>n</EM> is <CODE>1</CODE>,<CO
 useful for renaming multiple files at once. Second, if option ``<STRONG>-p</STRONG>''
 (for `preserve') is used and <EM>src-file</EM> and <EM>dst-file</EM> are byte-wise the
 same it just deletes <EM>src-file</EM>. The intention is that the permissions and
-time stamps on <EM>dst</EM> are't changed which is important if <EM>dst-file</EM> is
+time stamps on <EM>dst</EM> aren't changed which is important if <EM>dst-file</EM> is
 used in conjunction with Makefiles. Option ``<STRONG>-v</STRONG>'' (verbose) can be used to
 enable the output of extra processing information. Option ``<STRONG>-t</STRONG>'' (trace)
 can be used to enable the output of the essential shell commands which are
@@ -534,7 +534,7 @@ the already set bits. It's intended to be run before a tarball is rolled out
 of the source tree. Option ``<STRONG>-v</STRONG>'' can be used to display some processing
 information. Option ``<STRONG>-t</STRONG>'' (trace) can be used to enable the output of the
 essential shell commands which are executed.
-<P>The trick is that this is more convinient that having to set the permissions
+<P>The trick is that this is more convenient that having to set the permissions
 manually or with a large file list.</P>
 <P>Example:</P>
 <PRE>
@@ -542,7 +542,7 @@ manually or with a large file list.</P>
       shtool fixperm -v *
       ...</PRE>
 <P></P>
-<DT><P><STRONG><A NAME="item_rotate_%5B%2Dv%7C%2D%2Dverbose%5D_%5B%2Dt%7C%2D%2D"><STRONG>rotate</STRONG> [<STRONG>-v</STRONG>|<STRONG>--verbose</STRONG>] [<STRONG>-t</STRONG>|<STRONG>--trace</STRONG>] [<STRONG>-f</STRONG>|<STRONG>--force</STRONG>] [<STRONG>-n</STRONG>|<STRONG>--num-files</STRONG> <EM>count</EM>] [<STRONG>-s</STRONG>|<STRONG>--min-size</STRONG> <EM>size</EM>] [<STRONG>-c</STRONG>|<STRONG>--copy</STRONG>] [<STRONG>-r</STRONG>|<STRONG>--remove</STRONG>] [<STRONG>-a</STRONG>|<STRONG>--archive-dir</STRONG> <EM>dir</EM>] [<STRONG>-z</STRONG>|<STRONG>--compress</STRONG> [<EM>tool</EM>:]<EM>level</EM>] [<STRONG>-b</STRONG>|<STRONG>--background</STRONG>] [<STRONG>-d</STRONG>|<STRONG>--delay</STRONG>] [<STRONG>-p</STRONG>|<STRONG>--pad</STRONG> <EM>len</EM>] [<STRONG>-o</STRONG>|<STRONG>--owner</STRONG> <EM>owner</EM>] [<STRONG>-g</STRONG>|<STRONG>--group</STRONG> <EM>group</EM>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] [<STRONG>
+<DT><P><STRONG><A NAME="item_rotate_%5B%2Dv%7C%2D%2Dverbose%5D_%5B%2Dt%7C%2D%2D"><STRONG>rotate</STRONG> [<STRONG>-v</STRONG>|<STRONG>--verbose</STRONG>] [<STRONG>-t</STRONG>|<STRONG>--trace</STRONG>] [<STRONG>-f</STRONG>|<STRONG>--force</STRONG>] [<STRONG>-n</STRONG>|<STRONG>--num-files</STRONG> <EM>count</EM>] [<STRONG>-s</STRONG>|<STRONG>--size</STRONG> <EM>size</EM>] [<STRONG>-c</STRONG>|<STRONG>--copy</STRONG>] [<STRONG>-r</STRONG>|<STRONG>--remove</STRONG>] [<STRONG>-a</STRONG>|<STRONG>--archive-dir</STRONG> <EM>dir</EM>] [<STRONG>-z</STRONG>|<STRONG>--compress</STRONG> [<EM>tool</EM>:]<EM>level</EM>] [<STRONG>-b</STRONG>|<STRONG>--background</STRONG>] [<STRONG>-d</STRONG>|<STRONG>--delay</STRONG>] [<STRONG>-p</STRONG>|<STRONG>--pad</STRONG> <EM>len</EM>] [<STRONG>-o</STRONG>|<STRONG>--owner</STRONG> <EM>owner</EM>] [<STRONG>-g</STRONG>|<STRONG>--group</STRONG> <EM>group</EM>] [<STRONG>-m</STRONG>|<STRONG>--mode</STRONG> <EM>mode</EM>] [<STRONG>
 <FONT SIZE="-1">-M</FONT></STRONG>|<STRONG>--migrate</STRONG> <EM>cmd</EM>] [<STRONG>
 <FONT SIZE="-1">-P</FONT></STRONG>|<STRONG>--prolog</STRONG> <EM>cmd</EM>] [<STRONG>
 <FONT SIZE="-1">-E</FONT></STRONG>|<STRONG>--epilog</STRONG> <EM>cmd</EM>] <EM>file</EM> [...]</A></STRONG><BR>
@@ -570,7 +570,7 @@ still opened, after the rotation step it will have archive file number
 0 opened and usually has to reopen the new <EM>file</EM>, while in the second
 case the application can keep its open file handles to <EM>file</EM>. The
 drawback of the second approach is that logfile entries are lost when
-they are written to <EM>file</EM> between the executation of the copy and the
+they are written to <EM>file</EM> between the execution of the copy and the
 subsequent truncation operation.</P>
 <P>Option ``<STRONG>-r</STRONG>'' removes <EM>file</EM> after rotation instead of providing a
 new empty file. Option ``<STRONG>-a</STRONG>'' forces archive files to be created in
@@ -718,7 +718,7 @@ subdirs) in a large source tree.</P>
 <DD>
 This command separates the linker options ``<STRONG>
 <FONT SIZE="-1">-L</FONT></STRONG>'' and ``<STRONG>-l</STRONG>'' by library
-class. It's argument line can actually be an abitrary command line where those
+class. It's argument line can actually be an arbitrary command line where those
 options are contained. <STRONG>slo</STRONG> parses these two options only and ignores the
 remaining contents. The result is a trivial shell script on <CODE>stdout</CODE> which
 defines six variables containing the ``<STRONG>
@@ -843,7 +843,7 @@ resetting level to 0) or ``<CODE>l</CODE>'' for increasing the level by 1. Optio
 <P>Unless option ``<STRONG>-e</STRONG>'', ``<STRONG>-i</STRONG>'' or ``<STRONG>-s</STRONG>'' is specified, the performed
 action is to display the current version. Option ``<STRONG>-d</STRONG>'' then can be used
 to control the display type: ``<CODE>short</CODE>'' for a short version display, ``<CODE>long</CODE>''
-for a longer version display, ``<CODE>hex</CODE>'' for a hexadecial display of the version
+for a longer version display, ``<CODE>hex</CODE>'' for a hexadecimal display of the version
 and ``<CODE>libtool</CODE>'' for a format suitable for use with
 <FONT SIZE="-1">GNU</FONT> libtool.</P>
 <P>The hexadecimal format for a version <CODE>v.rtl</CODE> is <CODE>VVRRTLL</CODE> where <CODE>VV</CODE>

@@ -213,7 +213,7 @@ Pretty-prints the last modification time of a file or directory.
 
 =item B<table>
 
-Pretty-prints a field-sperarated list as a table.
+Pretty-prints a field-separately list as a table.
 
 =item B<prop>
 
@@ -353,7 +353,7 @@ Examples:
 
 =item B<table> [B<-F>|B<--field-sep> I<sep>] [B<-w>|B<--width> I<width>] [B<-c>|B<--columns> I<cols>] [B<-s>|B<--strip> I<strip>] I<str>B<sep>I<str>...
 
-This pretty-prints a I<sep>-sperarated list of I<str>ings as a table.  Per
+This pretty-prints a I<sep>-separated list of I<str>ings as a table.  Per
 default a colon-separated list (I<sep>=":") is pretty printed as a
 three-column (<cols>=3) table no longer than 79 chars (I<strip>=79) is
 generated where each column is 15 characters wide (I<width>=15).
@@ -395,7 +395,7 @@ one can use ``C<%>I<n>'' (where I<n> is C<1>,C<2>,...) in I<dst-file>. This is
 useful for renaming multiple files at once.  Second, if option ``B<-p>''
 (for `preserve') is used and I<src-file> and I<dst-file> are byte-wise the
 same it just deletes I<src-file>. The intention is that the permissions and
-time stamps on I<dst> are't changed which is important if I<dst-file> is
+time stamps on I<dst> aren't changed which is important if I<dst-file> is
 used in conjunction with Makefiles.  Option ``B<-v>'' (verbose) can be used to
 enable the output of extra processing information. Option ``B<-t>'' (trace)
 can be used to enable the output of the essential shell commands which are
@@ -520,7 +520,7 @@ of the source tree. Option ``B<-v>'' can be used to display some processing
 information.  Option ``B<-t>'' (trace) can be used to enable the output of the
 essential shell commands which are executed.
 
-The trick is that this is more convinient that having to set the permissions
+The trick is that this is more convenient that having to set the permissions
 manually or with a large file list.
 
 Example:
@@ -530,7 +530,7 @@ Example:
       shtool fixperm -v *
       ...
 
-=item B<rotate> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-n>|B<--num-files> I<count>] [B<-s>|B<--min-size> I<size>] [B<-c>|B<--copy>] [B<-r>|B<--remove>] [B<-a>|B<--archive-dir> I<dir>] [B<-z>|B<--compress> [I<tool>:]I<level>] [B<-b>|B<--background>] [B<-d>|B<--delay>] [B<-p>|B<--pad> I<len>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-m>|B<--mode> I<mode>] [B<-M>|B<--migrate> I<cmd>] [B<-P>|B<--prolog> I<cmd>] [B<-E>|B<--epilog> I<cmd>] I<file> [...]
+=item B<rotate> [B<-v>|B<--verbose>] [B<-t>|B<--trace>] [B<-f>|B<--force>] [B<-n>|B<--num-files> I<count>] [B<-s>|B<--size> I<size>] [B<-c>|B<--copy>] [B<-r>|B<--remove>] [B<-a>|B<--archive-dir> I<dir>] [B<-z>|B<--compress> [I<tool>:]I<level>] [B<-b>|B<--background>] [B<-d>|B<--delay>] [B<-p>|B<--pad> I<len>] [B<-o>|B<--owner> I<owner>] [B<-g>|B<--group> I<group>] [B<-m>|B<--mode> I<mode>] [B<-M>|B<--migrate> I<cmd>] [B<-P>|B<--prolog> I<cmd>] [B<-E>|B<--epilog> I<cmd>] I<file> [...]
 
 This command rotates a logfile I<file> by subsequently creating up to
 I<count> (optionally compressed) archive files of it. Archive files are
@@ -554,7 +554,7 @@ still opened, after the rotation step it will have archive file number
 0 opened and usually has to reopen the new I<file>, while in the second
 case the application can keep its open file handles to I<file>. The
 drawback of the second approach is that logfile entries are lost when
-they are written to I<file> between the executation of the copy and the
+they are written to I<file> between the execution of the copy and the
 subsequent truncation operation.
 
 Option ``B<-r>'' removes I<file> after rotation instead of providing a
@@ -711,7 +711,7 @@ Example:
 =item B<slo> [B<-p>|B<--prefix> I<str>] -- B<-L>I<dir> B<-l>I<lib> [ B<-L>I<dir> B<-l>I<lib> ... ]
 
 This command separates the linker options ``B<-L>'' and ``B<-l>'' by library
-class. It's argument line can actually be an abitrary command line where those
+class. It's argument line can actually be an arbitrary command line where those
 options are contained. B<slo> parses these two options only and ignores the
 remaining contents. The result is a trivial shell script on C<stdout> which
 defines six variables containing the ``B<-L>'' and ``B<-l>'' options sorted by
@@ -842,7 +842,7 @@ resetting level to 0) or ``C<l>'' for increasing the level by 1.  Option
 Unless option ``B<-e>'', ``B<-i>'' or ``B<-s>'' is specified, the performed
 action is to display the current version.  Option ``B<-d>'' then can be used
 to control the display type: "C<short>" for a short version display, "C<long>"
-for a longer version display, "C<hex>" for a hexadecial display of the version
+for a longer version display, "C<hex>" for a hexadecimal display of the version
 and "C<libtool>" for a format suitable for use with GNU libtool.
 
 The hexadecimal format for a version C<v.rtl> is C<VVRRTLL> where C<VV>
