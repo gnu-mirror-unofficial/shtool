@@ -9,6 +9,21 @@
 
  ChangeLog
 
+ Changes between 1.6.0 and 1.6.1 (01-Feb-2002 to 12-Jul-2002):
+
+   *) Removed not-existing --min-size option from the usage
+      of "shtool rotate". The name is just --size.
+      [Thomas Linden <tom@izb.net>]
+
+   *) Port to POSIX 1003.1-2001 (SUSv3) standard:
+      sh.echo, sh.version: "head -1" -> "sed -e 'q'"
+      sh.path: "sort -u | tail -1" -> "sort -r -u | sed -e q"
+      sh.subst: diff -u1 -> diff -U1
+      [Paul Eggert <eggert@twinsun.com>]
+
+   *) Fixed various typos in shtool.pod.
+      [Ralf S. Engelschall, Liones <liones@myrealbox.com>]
+
  Changes between 1.5.4 and 1.6.0 (14-Jun-2001 to 01-Feb-2002):
 
    *) Upgraded to GNU Autoconf 2.52 environment.
@@ -17,7 +32,7 @@
    *) Fixed contained RPM specification (shtool.spec)
       [Ralf S. Engelschall]
 
-   *) Added new command `shtool rotate `[-v|--verbose] [-t|--trace]
+   *) Added new command `shtool rotate [-v|--verbose] [-t|--trace]
       [-f|--force] [-n|--num-files <count>] [-s|--min-size <size>]
       [-c|--copy] [-r|--remove] [-a|--archive-dir <dir>] [-z|--compress
       [<tool>:]<level>] [-b|--background] [-d|--delay] [-p|--pad <len>]
