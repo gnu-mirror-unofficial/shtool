@@ -9,6 +9,52 @@
 
  ChangeLog
  
+ Changes between 1.5.1 and 1.5.2 (06-Jul-2000 to 29-Feb-2001):
+
+   *) Fixed IFS usage in `shtool slo': `OIFS="$IFS" IFS="..."' is not
+      portable, because some brain-dead Bourne-Shells (for instance /bin/sh
+      under Solaris 2.8) evaluate from right-to-left instead of the usual and
+      expected left-to-right. Fixed by adding a semicolon.
+      [Christoph Schug <chris@schug.net>, Ralf S. Engelschall]
+
+   *) Created a new `-e <sed-cmd>' option for `shtool install' which can
+      be used one or multiple times to apply one or more sed(1) commands
+      on-the-fly to installed files.
+      [Ralf S. Engelschall]
+
+   *) Kicked out the `-e <ext>' option of `shtool install', because it
+      was a left-over from ancient days on non-POSIX systems and no longer
+      is (or should be) of any use.
+      [Ralf S. Engelschall]
+
+   *) Adjusted copyright messages to cover year 2001, too.
+      [Ralf S. Engelschall]
+
+   *) Adjusted the shtool.spec a little bit.
+      [Ralf S. Engelschall]
+  
+   *) Be extra paranoid and create temporary files with permissions of 0600. 
+      [Ralf S. Engelschall]
+
+   *) Replaced a few too conservative `if [..] && [..]' with the faster
+      but still portable `if [.. -a ..]'. Only make sure that `-a' and `-o'
+      are not mixed in a single test (because this is unportable).
+      [Ralf S. Engelschall]
+
+   *) Fixed `shtool install': the default for option -m is 0755 in
+      order to be consistent with the semantics of original BSD and 
+      GNU install commands. 
+      [Evgeny Stambulchik <fnevgeny@plasma-gate.weizmann.ac.il>]
+
+   *) Added support to Makefile.in for DESTDIR variable. This allows
+      easier rolling of installation tarballs (for instance from within 
+      RPM or similar facilities) by using "make install DESTDIR=/tmp/shtool".
+      [Brad Smith <brad@comstyle.com>]
+
+   *) Actually use the determined `find' command instead of the 
+      hard-coded one in `shtool tarball'.
+      [Denis Barbier <barbier@imacs.polytechnique.fr>]
+
  Changes between 1.5.0 and 1.5.1 (01-Jul-2000 to 06-Jul-2000):
 
    *) Fixed hex value generation `shtool version': the `%X' printf
