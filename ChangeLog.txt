@@ -9,6 +9,19 @@
 
  ChangeLog
  
+ Changes between 1.5.2 and 1.5.3 (29-Feb-2001 to 19-Apr-2001):
+
+   *) Added support for three usage lines to shtoolize.sh. 
+      [Ralf S. Engelschall]
+
+   *) Fixed a few whitespace inconsistencies in shtool.pod
+      and the usage line of `shtool tarball'.
+      [Ralf S. Engelschall]
+
+   *) Fix `shtool mkdir': option -m was only applied if
+      option -p was present.
+      [Ralf S. Engelschall]
+
  Changes between 1.5.1 and 1.5.2 (06-Jul-2000 to 29-Feb-2001):
 
    *) Fixed IFS usage in `shtool slo': `OIFS="$IFS" IFS="..."' is not
