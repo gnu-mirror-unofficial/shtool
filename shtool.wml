@@ -55,5 +55,5 @@ If you think you have found a bug in GNU shtool, then you should send a report
 as complete as possible to <A
 HREF="mailto:bug-shtool@gnu.org">&lt;bug-shtool@gnu.org&gt;</A>. And if you
 can, please try to fix the problem and include a patch made with "<CODE>diff
--u3</CODE>" in your report.
+-u</CODE>" in your report.
 
