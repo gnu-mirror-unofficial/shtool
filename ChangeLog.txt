@@ -1,17 +1,45 @@
-      _     _              _ 
+      _     _              _
   ___| |__ | |_ ___   ___ | |
  / __| '_ \| __/ _ \ / _ \| |
  \__ \ | | | || (_) | (_) | |
  |___/_| |_|\__\___/ \___/|_|
-                           
+
  GNU shtool -- The GNU Portable Shell Tool
  ____________________________________________________________________
 
  ChangeLog
- 
+
+ Changes between 1.5.3 and 1.5.4 (19-Apr-2001 to 14-Jun-2001):
+
+   *) Removed numerious trailing whitespaces from source files.
+      [Ralf S. Engelschall]
+
+   *) Updated shtool.spec file: DESTDIR support, indentation 
+      cleanups, etc.
+      [Ralf S. Engelschall]
+
+   *) Fixed typos in README.
+      [Ralf S. Engelschall]
+
+   *) Add missing entry for `tarball' to shtoolize.pod list.
+      [Ralf S. Engelschall]
+
+   *) Added %g (current group name) and %G (current group id)
+      constructs to `shtool echo -e' command.
+      [Ralf S. Engelschall]
+
+   *) Fixed example of `shtool move' in shtool.pod
+      [Ralf S. Engelschall]
+
+   *) Fixed a bug in `shtool echo -e %d'
+      [Ralf S. Engelschall, Christoph Schug <chris@schug.net>]
+
+   *) Adjusted "make test" to also work under Cygwin environment.
+      [Joerg Freudenberger <Joerg.Freudenberger@nbg9.siemens.de>]
+
  Changes between 1.5.2 and 1.5.3 (29-Feb-2001 to 19-Apr-2001):
 
-   *) Added support for three usage lines to shtoolize.sh. 
+   *) Added support for three usage lines to shtoolize.sh.
       [Ralf S. Engelschall]
 
    *) Fixed a few whitespace inconsistencies in shtool.pod
@@ -45,8 +73,8 @@
 
    *) Adjusted the shtool.spec a little bit.
       [Ralf S. Engelschall]
-  
-   *) Be extra paranoid and create temporary files with permissions of 0600. 
+
+   *) Be extra paranoid and create temporary files with permissions of 0600.
       [Ralf S. Engelschall]
 
    *) Replaced a few too conservative `if [..] && [..]' with the faster
@@ -55,16 +83,16 @@
       [Ralf S. Engelschall]
 
    *) Fixed `shtool install': the default for option -m is 0755 in
-      order to be consistent with the semantics of original BSD and 
-      GNU install commands. 
+      order to be consistent with the semantics of original BSD and
+      GNU install commands.
       [Evgeny Stambulchik <fnevgeny@plasma-gate.weizmann.ac.il>]
 
    *) Added support to Makefile.in for DESTDIR variable. This allows
-      easier rolling of installation tarballs (for instance from within 
+      easier rolling of installation tarballs (for instance from within
       RPM or similar facilities) by using "make install DESTDIR=/tmp/shtool".
       [Brad Smith <brad@comstyle.com>]
 
-   *) Actually use the determined `find' command instead of the 
+   *) Actually use the determined `find' command instead of the
       hard-coded one in `shtool tarball'.
       [Denis Barbier <barbier@imacs.polytechnique.fr>]
 
@@ -74,7 +102,7 @@
       format is not understood by all AWK flavors. So use the more
       portable `%x' instead and pass the result trough a `tr' filter.
       [Ralf S. Engelschall, Joe Meadows <joe.meadows@boeing.com>,
-       Todd R. Stroup <tstroup@tomahawk.dartas.com>, Keith Minkler 
+       Todd R. Stroup <tstroup@tomahawk.dartas.com>, Keith Minkler
        <kminkler@jabber.com>]
 
    *) Typo in shtool.pod
@@ -118,7 +146,7 @@
    *) Fixed shtool.pod: `shtool path -m perl5 perl' is bogus, it has to
       be just `shtool path -m perl' because the "perl" argument is magic.
       [Ralf S. Engelschall]
-  
+
    *) Fixed `here-document' handling in shtoolize: the whitespaces
       were incorrectly determined and so newlines were lost.
       [Ralf S. Engelschall]
@@ -128,12 +156,12 @@
       for mass-installing files by using shell wildcards for the source.
       [Ralf S. Engelschall]
 
-   *) Be compatible with SUSv2 and let `shtool mkdir -p' not complain 
+   *) Be compatible with SUSv2 and let `shtool mkdir -p' not complain
       if directory already exists.
       [Sascha Schumann <sascha@schumann.cx>]
 
  Changes between 1.4.8 and 1.4.9 (12-Mar-2000 to 16-Apr-2000):
-   
+
    *) Added an `-f <filter>' option to `shtool scpp' which can be used to
       pre-filter all input files with one or more sed-expressions <filter>.
       [Ralf S. Engelschall]
@@ -151,7 +179,7 @@
       only if terminal is not a vt100, vt200 or an xterm (because for these
       three we have the escape sequences hard-coded).
       [Ralf S. Engelschall]
-  
+
    *) Fixed various typos in the scripts.
       [Ralf S. Engelschall]
 
@@ -160,7 +188,7 @@
       [Ralf S. Engelschall]
 
    *) Added a RPM spec file shtool.spec which allows one to build RPM
-      packages directly from the Shtool distribution tarball through a 
+      packages directly from the Shtool distribution tarball through a
       simple `rpm -tb shtool-1.X.Y.tar.gz' call.
       [Daniel Richard G. <straker@MIT.EDU>]
 
@@ -177,7 +205,7 @@
       Additionally we now use sed instead of awk here.
       [Ralf S. Engelschall]
 
-   *) Made shtool's command line related error messages more 
+   *) Made shtool's command line related error messages more
       clear by distinguishing between options and commands.
       [Denis Barbier <barbier@imacs.polytechnique.fr>]
 
@@ -237,7 +265,7 @@
 
  Changes between 1.4.3 and 1.4.4 (11-Jul-1999 to 17-Jul-1999):
 
-   *) Added a new `shtool tarball' command for rolling 
+   *) Added a new `shtool tarball' command for rolling
       nice distribution tarballs.
       [Ralf S. Engelschall]
 
@@ -247,8 +275,8 @@
    *) Adjusted IRIX detection in sh.guessos.
       [Ralf S. Engelschall]
 
-   *) Allow shtool to recognize symlinks to itself with the name of 
-      the shtool command like in `ln -s shtool install'.  
+   *) Allow shtool to recognize symlinks to itself with the name of
+      the shtool command like in `ln -s shtool install'.
       This is useful for emulation situations.
       [Paolo Bonzini <bonzini@gnu.org>, Ralf S. Engelschall]
 
@@ -271,7 +299,7 @@
    *) Enhanced sh.guessos for more granular GNU/Linux detection.  This
       especially fixes problems when using the guessed id with libtool.
       [Ralf S. Engelschall]
-   
+
    *) Enhanced `shtool scpp': The generated function prototypes now
       no longer contain the argument names to avoid namespace conflicts
       [Ralf S. Engelschall]
@@ -353,20 +381,20 @@
       [Ralf S. Engelschall, Markus F.X.J. Oberhumer
       <markus.oberhumer@jk.uni-linz.ac.at>]
 
-   *) Fixed error status handling in sh.move 
+   *) Fixed error status handling in sh.move
       [Markus F.X.J. Oberhumer <markus.oberhumer@jk.uni-linz.ac.at>]
 
  Changes between 1.3.1 and 1.3.2 (28-Jun-1999 to 28-Jun-1999):
 
    *) Fixed a portability problem under SysV shells inside the source tree:
       the sh.xxxx scripts have to include sh.common via ``. ./sh.common''
-      instead of just ``. sh.common'' in order to find sh.common in the 
-      source tree while bootstrapping. 
+      instead of just ``. sh.common'' in order to find sh.common in the
+      source tree while bootstrapping.
       [Ralf S. Engelschall, Lars Hecking <lhecking@nmrc.ucc.ie>]
 
  Changes between 1.3.0 and 1.3.1 (25-Jun-1999 to 28-Jun-1999):
 
-   *) Fixed directory checks in mkshadow command [Ralf S. Engelschall, 
+   *) Fixed directory checks in mkshadow command [Ralf S. Engelschall,
       Evgeny Stambulchik <fnevgeny@plasma-gate.weizmann.ac.il>]
 
    *) Added -d (debug) and -a (symlink all) options to mkshadow command.
@@ -445,7 +473,7 @@
 
  Changes between 1.2.5 and 1.2.6 (12-May-1999 to 13-May-1999):
 
-   *) Added leading underscores in AS_HEADER and defines 
+   *) Added leading underscores in AS_HEADER and defines
       used in the generated file of sh.version
       [Ralf S. Engelschall]
 
@@ -467,13 +495,13 @@
    *) Removed Apache relicts in sh.mkshadow: apaci, etc.
       [Ralf S. Engelschall]
 
-   *) Cleanups to Makefile.in 
+   *) Cleanups to Makefile.in
       [Denis Barbier <barbier@imacs.polytechnique.fr]
 
-   *) Additional initializations for sh.version 
+   *) Additional initializations for sh.version
       [Denis Barbier <barbier@imacs.polytechnique.fr]
 
-   *) Allow env vars $TMPDIR and $TEMPDIR to override /tmp 
+   *) Allow env vars $TMPDIR and $TEMPDIR to override /tmp
       in sh.version and sh.path.
       [Denis Barbier <barbier@imacs.polytechnique.fr]
 
