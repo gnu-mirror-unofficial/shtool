@@ -797,19 +797,19 @@ input is parsed.</P>
   SRCS=foo_bar.c foo_quux.c
   foo_p.h: foo_p.h.in
        shtool scpp -o foo_p.h -t foo_p.h.in \
-                   -M %%MARK%% -D cpp -C intern $(SRCS)</PRE>
-<PRE>
+                   -M %%MARK%% -D cpp -C intern $(SRCS)
+
   /* foo_p.h.in */
   %%MARK%%
-<PRE>
+
   /* foo_bar.c */
   intern int ours;
   static int myone = 0815;
   intern int bar(void)
   {
       ours += myone;
-  }</PRE>
-<PRE>
+  }
+
   /* foo_quux.c */
   int main(int argc, char *argv[])
   {
