@@ -9,6 +9,137 @@
 
  ChangeLog
 
+ Changes between 2.0b4 and 2.0.0 (08-May-2004 to 02-Jul-2004):
+
+   *) Add -w/--warning option to "shtool subst" command which
+      shows warnings on substitution operation resulting in no content
+      change on every file. The new default is now to show a warning on
+      substitution operations resulted in no content change on all files
+      only.
+      [Ralf S. Engelschall, Thomas Lotterer]
+
+   *) Fix platform id generation under NetBSD.
+      [Ralf S. Engelschall]
+
+   *) Fix concise platform id generation under HP-UX.
+      [Ralf S. Engelschall]
+
+ Changes between 2.0b2 and 2.0b3 (07-Apr-2004 to 08-May-2004):
+
+   *) Add option "-q" to "shtool subst" for suppressing a new warning on
+      substitution operation resulting in no content change.
+      [Ralf S. Engelschall]
+
+   *) Port "sh.platform" to full POSIX 1003.1-2001 (SUSv3) compliance by
+      replacing "head -1" with "sed -e 'q'" and "tail -1" with "sed -n -e '$p'".
+      [Ralf S. Engelschall]
+
+ Changes between 2.0b1 and 2.0b2 (17-Feb-2004 to 07-Apr-2004):
+
+   *) Replace "tr 'x-' 'x_'" with "sed -e 's/-/_/g'" constructs
+      because some tr(1) (at least Solaris' /usr/ucb/tr) go into endless
+      loops on (incorrectly assumed) range constructs with no ends.
+      [Armin Wolfermann <aw@osn.de>]
+
+ Changes between 1.6.2 and 2.0b1 (02-Nov-2002 to 17-Feb-2004):
+
+   *) Fix typos in various files.
+      [Thomas Lotterer <thomas@lotterer.net>]
+
+   *) Embedded the command documentation from shtool.pod into the
+      individual sh.xxxx scripts and this way split the large shtool(1)
+      manual page into individual manual pages shtool-xxxx(1).
+      [Ralf S. Engelschall, Thomas Lotterer <thomas@lotterer.net>]
+
+   *) Upgraded to GNU Autoconf 2.59 environment.
+      [Ralf S. Engelschall]
+
+   *) Bumped copyright year for 2004.
+      [Ralf S. Engelschall]
+
+   *) Replaced old and inflexible "shtool guessos" command
+      with a completely new command "shtool platform" command.
+      It distinguishes a Unix platform according to its hardware
+      architecture and operating system. For both there is a class,
+      product and technology identification. For each of those six
+      identifications, there is a verbose, regular and concise version.
+      [Ralf S. Engelschall]
+
+   *) Upgraded to GNU Autoconf 2.58 environment.
+      [Ralf S. Engelschall]
+
+   *) Replace "[ x -o/-a x ]" constructs with "[ x ] ||/&& [ x ]"
+      and "egrep"/"fgrep" constructs with compatible "grep" or "case"
+      constructs. This way GNU shtool is now more POSIX 1003.1-2001
+      compliant.
+      [Paul Eggert <eggert@twinsun.com>]
+
+   *) Make sure "shtool install -e ..." does not fail with "permission
+      denied" on the internally created temporary files if the source
+      file is not writeable to the current user. This occurs because
+      cp(1) does not in all cases honor umask(2) (even without option
+      -p) -- mainly if the source file is already owned by the current
+      user (then the permissions are always copied). Hence an explicit
+      "chmod u+w" is required if the "shtool install" substitution
+      feature (option -e) is used.
+      [Thomas Lotterer <thomas@lotterer.net>,
+       Ralf S. Engelschall <rse@engelschall.com>]
+
+   *) When patching a file with "shtool subst" try to make it
+      writeable first in case it has permissions set differently.
+      [Ralf S. Engelschall <rse@engelschall.com>]
+
+   *) Fix calculation of effective source path in "shtool mkln" command
+      for destination paths containing "/./" sequence and for source paths
+      consisting of no directory parts at all.
+      [Ralf S. Engelschall <rse@engelschall.com>,
+       Michael Schloh v. Bennewitz <michael@schloh.com>]
+
+   *) Use "env -i /bin/ls" construct in "shtool rotate" and "shtool slo"
+      commands to make sure we have a consistent output not adjusted by
+      some environment variables like LANG, LS_COLORS, LS_OPTIONS, etc.
+      [Ralf S. Engelschall <rse@engelschall.com>,
+       Manuel Hendel <manuel@hendel.net>]
+
+   *) Make sure "shtool rotate" does still correctly determine
+      the size of a file if its filename contains whitespaces.
+      [Ralf S. Engelschall <rse@engelschall.com>,
+       Bill Campbell <bill@celestial.com>]
+
+   *) Consistently use "/bin/ls" instead of "ls" internally to avoid
+      problems with other "ls" in PATH while still not becoming
+      unportable (because "/bin/ls" is really on every reasonable
+      Unix-style platform the "ls" command).
+      [Ralf S. Engelschall <rse@engelschall.com>]
+
+   *) Enhance %u, %U, %g and %G expansions of "shtool echo -e"
+      by also trying the Solaris/Linux "getent" command.
+      [Ralf S. Engelschall <rse@engelschall.com>,
+       Christoph Schug <chris@schug.net>]
+
+   *) Enhance %u, %U, %g and %G expansions of "shtool echo -e"
+      by first trying to resolve via POSIX "id" command.
+      [Ralf S. Engelschall <rse@engelschall.com>,
+       Bill Campbell <bill@celestial.com>]
+
+   *) Bump year in copyright messages to cover new year 2003.
+      [Ralf S. Engelschall <rse@engelschall.com>]
+
+   *) Fixed error exit in all commands by introducing an "shtool_exit"
+      function (which correctly cleans up temporary files) and
+      replacing all "exit" calls with "shtool_exit". THIS THE FIRST
+      TIME INTRODUCED THE USAGE OF A SHELL FUNCTION TO THE SHTOOL CODE.
+      This is known to break on _very_ anchient and broken Bourne-Shell
+      implementations and is considered to be no longer a real problem
+      in the year 2003. Especially there is no alternative way anyway.
+      [Ralf S. Engelschall <rse@engelschall.com>]
+
+   *) Fixed description of "shtool install -C" operation in manual page.
+      [Stefan Seefeld <stefan@fresco.org>]
+
+   *) Changed "shtool fixperm" to no longer set group writeability.
+      [Ralf S. Engelschall, Michael van Elst <mlelstv@serpens.de>]
+
  Changes between 1.6.1 and 1.6.2 (12-Jul-2002 to 02-Nov-2002):
 
    *) Map "shtool install -d <dir> [...]" internally to "shtool mkdir

@@ -4,8 +4,8 @@
 #use wml::std::toc style=pre
 #use wml::std::box
 
-<set-var VERS="1.6.2">
-<set-var DATE="02-Nov-2002">
+<set-var VERS="2.0.0">
+<set-var DATE="02-Jul-2004">
 
 <p>
 # <box header="<b id=sf>Current State</b>" bdwidth=1 bdspace=6 bdcolor="#cccccc" bgcolor="#ffffff">
@@ -31,26 +31,11 @@ There it can overtake various (usually non-portable) tasks related to the
 building and installation of such a package. It especially can replace the old
 <code>mkdir.sh</code>, <code>install.sh</code> and related scripts.
 
-<h2>Documentation, Distribution and Bug Reports</h2>
+<h2>Distribution and Bug Reporting</h2>
 
 <p>
-GNU shtool is documented by a <a href="shtool-manual.html">manual</a>
-which describes the functionality of the program in detail. This document is
-available in <a href="shtool-manual.html">HTML</a>, <a
-href="shtool-manual.dvi">DVI</a>, <a href="shtool-manual.ps">Postscript</a>
-and <a href="shtool-manual.pod">POD</a> format.  Additionally the <a
-href="/brave-gnu-world/">Brave GNU World</a> column contains a short
-introduction to GNU shtool in its <a
-href="/brave-gnu-world/issue-7.en.html">Issue No. 7</a>.
-
-<p>
-The latest GNU shtool
-distribution can be found on <A
-HREF="ftp://ftp.gnu.org/gnu/shtool/">ftp://ftp.gnu.org/gnu/shtool/</A> or one
-of <A HREF="/prep/ftp.html">the mirrors</A>. Alpha versions can be found on <A
-HREF="ftp://alpha.gnu.org/gnu/shtool/">ftp://alpha.gnu.org/gnu/shtool/</A>. 
-
-<p>
+The latest GNU shtool distribution can be found on <A
+HREF="ftp://ftp.gnu.org/gnu/shtool/">ftp://ftp.gnu.org/gnu/shtool/</A>.
 If you think you have found a bug in GNU shtool, then you should send a report
 as complete as possible to <A
 HREF="mailto:bug-shtool@gnu.org">&lt;bug-shtool@gnu.org&gt;</A>. And if you
