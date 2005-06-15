@@ -9,6 +9,20 @@
 
  ChangeLog
 
+ Changes between 2.0.1 and 2.0.2 (11-Aug-2004 to 15-Jun-2005):
+
+   *) Fix insecure temporary file handling (CAN-2005-1751, CAN-2005-1759).
+      [Eric Romang <eromang@zataz.net>, Ralf S. Engelschall]
+
+   *) Add Mandriva Linux and Ubuntu Linux support to "shtool platform".
+      [Ralf S. Engelschall]
+
+   *) Add IBM OS/400 PASE support to "shtool platform".
+      [Henri Gomez <henri.gomez@gmail.com>]
+
+   *) Adjust copyright for year 2005.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.0 and 2.0.1 (02-Jul-2004 to 11-Aug-2004):
 
    *) Added M4 language output to "shtool version".
@@ -158,7 +172,7 @@
    *) Add -o|--owner and -g|--group options to "shtool mkdir".
       [Ralf S. Engelschall]
 
-   *) Fixed 'shtool scpp -f ...'. The arguments to option -f 
+   *) Fixed 'shtool scpp -f ...'. The arguments to option -f
       were not evaluated correctly.
       [Ralf S. Engelschall]
 
@@ -212,7 +226,7 @@
    *) Added NEWS file to source tree to comply to GNU standards.
       [Ralf S. Engelschall]
 
-   *) Add new `shtool subst [-v] [-t] [-n] [-s] [-i] [-b<ext>] 
+   *) Add new `shtool subst [-v] [-t] [-n] [-s] [-i] [-b<ext>]
       [-e<cmd>] [-f<cmd-file>] [<file>] [...]' command. This
       is a useful wrapper around sed(1).
       [Ralf S. Engelschall]
@@ -222,7 +236,7 @@
    *) Removed numerious trailing whitespaces from source files.
       [Ralf S. Engelschall]
 
-   *) Updated shtool.spec file: DESTDIR support, indentation 
+   *) Updated shtool.spec file: DESTDIR support, indentation
       cleanups, etc.
       [Ralf S. Engelschall]
 
