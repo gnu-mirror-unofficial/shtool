@@ -9,6 +9,26 @@
 
  ChangeLog
 
+ Changes between 2.0.2 and 2.0.3 (15-Jun-2005 to 02-Oct-2005):
+
+   *) "shtool mdate" needs to (un|re)set TIME_STYLE, as GNU coreutils'
+      "ls" changes its time format in response to the TIME_STYLE variable.
+      [James Rowe <jnrowe@ukfsn.org>]
+
+   *) Use "env -i sort" for Linux detections in "shtool platform" 
+      to circumvent LC_COLLATE and LANG environment problems.
+      [Ralf S. Engelschall]
+
+   *) Fixed "shtool version -l perl" by replacing "my" with "our"
+      to allow the generated file to be really useful when loaded
+      with the Perl "require" directive.
+      [Ralf S. Engelschall]
+
+   *) Improved FreeBSD/amd64 on iX86/EM64T detection within "shtool
+      platform" by treating this as a native AMD64 platform similar to
+      what the underlying OS does.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.1 and 2.0.2 (11-Aug-2004 to 15-Jun-2005):
 
    *) Fix insecure temporary file handling (CAN-2005-1751, CAN-2005-1759).
