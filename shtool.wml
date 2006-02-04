@@ -4,8 +4,8 @@
 #use wml::std::toc style=pre
 #use wml::std::box
 
-<set-var VERS="2.0.3">
-<set-var DATE="02-Oct-2005">
+<set-var VERS="2.0.4">
+<set-var DATE="04-Feb-2006">
 
 <p>
 # <box header="<b id=sf>Current State</b>" bdwidth=1 bdspace=6 bdcolor="#cccccc" bgcolor="#ffffff">

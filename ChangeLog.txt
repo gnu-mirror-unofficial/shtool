@@ -9,6 +9,27 @@
 
  ChangeLog
 
+ Changes between 2.0.3 and 2.0.4 (02-Oct-2005 to 04-Feb-2006):
+
+   *) Remove obsolete LANG/LC_TIME/LC_ALL adjustments in sh.mdate.
+      [Mike Frysinger <vapier@gentoo.org>]
+
+   *) Add ".svn" to the default ignore list of "shtool tarball".
+      [Ralf S. Engelschall]
+
+   *) Add missing documentation for "shtool tarball" option "-d".
+      [Ralf S. Engelschall, Sakagami Hiroki <sakagami@gmail.com>]
+
+   *) Enhance portability even more by maximizing Bourne Shell
+      compatibility under ZSH and BASH and avoiding NLS dependencies.
+      [R. N. de Arenas Coronado <privado@dervishd.net>]
+
+   *) Use internal util_{lower,upper} functions in "shtool version".
+      [Ralf S. Engelschall]
+
+   *) Adjust copyright for year 2006.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.2 and 2.0.3 (15-Jun-2005 to 02-Oct-2005):
 
    *) "shtool mdate" needs to (un|re)set TIME_STYLE, as GNU coreutils'
