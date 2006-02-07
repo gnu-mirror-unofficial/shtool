@@ -9,6 +9,12 @@
 
  ChangeLog
 
+ Changes between 2.0.4 and 2.0.5 (04-Feb-2006 to 07-Feb-2006):
+
+   *) Fix "shtool version" command which got broken after
+      recent util_{lower,upper} usage.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.3 and 2.0.4 (02-Oct-2005 to 04-Feb-2006):
 
    *) Remove obsolete LANG/LC_TIME/LC_ALL adjustments in sh.mdate.
