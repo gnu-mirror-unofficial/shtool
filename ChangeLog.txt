@@ -9,6 +9,16 @@
 
  ChangeLog
 
+ Changes between 2.0.5 and 2.0.6 (07-Feb-2006 to 19-Apr-2006):
+
+   *) Add support for Sun Niagara (sun4v) architecture to
+      GNU shtool "platform" command.
+      [Christoph Schug]
+
+   *) Add correct detection of Sun Solaris on AMD64 to
+      GNU shtool "platform" command.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.4 and 2.0.5 (04-Feb-2006 to 07-Feb-2006):
 
    *) Fix "shtool version" command which got broken after
