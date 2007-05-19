@@ -31,7 +31,7 @@ H3    { font-weight: bold; font-size: 12pt; line-height: 12pt; \
   GNU shtool - The GNU Portable Shell Tool
 </div>
 <div id=sf>
-  Copyright &copy; 1994-2006 
+  Copyright &copy; 1994-2007 
   <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</a> 
   &lt;<a href="mailto:rse@gnu.org">rse@gnu.org</a>&gt;
 </div>
@@ -57,7 +57,7 @@ send other questions to
 Verbatim copying and distribution of this entire article is
 permitted in any medium, provided this notice is preserved.<BR>
 <p>
-Copyright &copy; 1999-2006 <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</A>
+Copyright &copy; 1999-2007 <a href="http://www.gnu.org/people/people.html">Ralf S. Engelschall</A>
 <A HREF="mailto:rse@gnu.org">&lt;rse@gnu.org&gt;</A><BR>
 # Last Modified: <get-var WML_SRC_ISOTIME>
 </div>

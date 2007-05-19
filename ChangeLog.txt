@@ -9,6 +9,26 @@
 
  ChangeLog
 
+ Changes between 2.0.6 and 2.0.7 (19-Apr-2006 to 19-May-2007):
+
+   *) Upgrade build environment to GNU autoconf 2.61
+      [Ralf S. Engelschall]
+
+   *) Fix "shtool mkln" by fixing the determination whether
+      relative source paths can be used or not.
+      [Ralf S. Engelschall]
+
+   *) Make "shtool install" more robust by quoting arguments.
+      [Ralf S. Engelschall]
+
+   *) Fix and enhance "shtool echo -e" command by adding a missing
+      line-continuation and adding support for MacOS X via nidump(8)
+      and NIS+ support via niscat(8) and nismatch(8).
+      [Ralf S. Engelschall]
+
+   *) Adjust copyright for year 2007.
+      [Ralf S. Engelschall]
+
  Changes between 2.0.5 and 2.0.6 (07-Feb-2006 to 19-Apr-2006):
 
    *) Add support for Sun Niagara (sun4v) architecture to
