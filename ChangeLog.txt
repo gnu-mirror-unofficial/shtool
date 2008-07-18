@@ -9,6 +9,32 @@
 
  ChangeLog
 
+ Changes between 2.0.7 and 2.0.8 (19-May-2007 to 18-Jul-2008):
+
+   *) Upgrade build environment to GNU autoconf 2.62
+      [Ralf S. Engelschall]
+
+   *) Fix argument handling in "shtool mkln" command.
+      [Christoph Schug]
+
+   *) Adjust copyright for year 2008.
+      [Ralf S. Engelschall]
+
+   *) Detect Windows/Cygwin
+      [Ralf S. Engelschall]
+
+   *) Detect DragonFly BSD
+      [Ralf S. Engelschall]
+
+   *) Improved AIX hardware detection
+      [Ralf S. Engelschall]
+
+   *) Detect CentOS as a RHEL clone instead of a RHL clone.
+      [Ralf S. Engelschall]
+
+   *) Improved Mac OS X detection in "shtool plaform".
+      [Ralf S. Engelschall]
+
  Changes between 2.0.6 and 2.0.7 (19-Apr-2006 to 19-May-2007):
 
    *) Upgrade build environment to GNU autoconf 2.61
@@ -72,7 +98,7 @@
       "ls" changes its time format in response to the TIME_STYLE variable.
       [James Rowe <jnrowe@ukfsn.org>]
 
-   *) Use "env -i sort" for Linux detections in "shtool platform" 
+   *) Use "env -i sort" for Linux detections in "shtool platform"
       to circumvent LC_COLLATE and LANG environment problems.
       [Ralf S. Engelschall]
 
